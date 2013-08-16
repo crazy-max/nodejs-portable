@@ -5,31 +5,32 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::  Node.js Portable                                                              ::
 ::                                                                                ::
-::  Author: Cr@zy                                                                 ::
-::  Contact: http://www.crazyws.fr                                                ::
+::  A DOS Batch script to make Node.js portable on Windows systems.               ::
+::                                                                                ::
+::  Copyright (C) 2013 Cr@zy <webmaster@crazyws.fr>                               ::
+::                                                                                ::
+::  Node.js Portable is free software; you can redistribute it and/or modify      ::
+::  it under the terms of the GNU Lesser General Public License as published by   ::
+::  the Free Software Foundation, either version 3 of the License, or             ::
+::  (at your option) any later version.                                           ::
+::                                                                                ::
+::  Node.js Portable is distributed in the hope that it will be useful,           ::
+::  but WITHOUT ANY WARRANTY; without even the implied warranty of                ::
+::  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                  ::
+::  GNU Lesser General Public License for more details.                           ::
+::                                                                                ::
+::  You should have received a copy of the GNU Lesser General Public License      ::
+::  along with this program. If not, see http://www.gnu.org/licenses/.            ::
+::                                                                                ::
 ::  Related post: http://goo.gl/gavL4                                             ::
-::                                                                                ::
-::  This program is free software: you can redistribute it and/or modify it       ::
-::  under the terms of the GNU General Public License as published by the Free    ::
-::  Software Foundation, either version 3 of the License, or (at your option)     ::
-::  any later version.                                                            ::
-::                                                                                ::
-::  This program is distributed in the hope that it will be useful, but WITHOUT   ::
-::  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS ::
-::  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more         ::
-::  details.                                                                      ::
-::                                                                                ::
-::  You should have received a copy of the GNU General Public License along       ::
-::  with this program.  If not, see http://www.gnu.org/licenses/.                 ::
-::                                                                                ::
 ::  Usage: nodejs-portable.bat                                                    ::
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.0
+TITLE Node.js Portable v1.1
 
 :: Settings
-SET nodejsVersion=0.10.7
+SET nodejsVersion=0.10.15
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%CD%
@@ -47,7 +48,7 @@ SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.0
+ECHO # Node.js Portable v1.1
 ECHO Author  : Cr@zy
 ECHO Email   : webmaster@crazyws.fr
 ECHO Date    : 04/18/2013
