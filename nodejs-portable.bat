@@ -27,7 +27,7 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.1
+TITLE Node.js Portable v1.2
 
 :: Settings
 SET nodejsVersion=0.10.17
@@ -48,10 +48,7 @@ SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.1
-ECHO Author  : Cr@zy
-ECHO Email   : webmaster@crazyws.fr
-ECHO Date    : 04/18/2013
+ECHO # Node.js Portable v1.2
 ECHO.
 
 ECHO  1 - Launch
