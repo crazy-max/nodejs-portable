@@ -30,7 +30,7 @@ SETLOCAL EnableDelayedExpansion
 TITLE Node.js Portable v1.1
 
 :: Settings
-SET nodejsVersion=0.10.15
+SET nodejsVersion=0.10.17
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%CD%
@@ -58,7 +58,7 @@ ECHO  1 - Launch
 ECHO  2 - Install
 ECHO  9 - Exit
 ECHO.
-SET /P nodejsTask=Choose a task: 
+SET /P nodejsTask=Choose a task:
 ECHO.
 
 IF %nodejsTask% == 1 GOTO LAUNCH
@@ -80,20 +80,30 @@ SET TEMP=%nodejsPath%\tmp
 IF NOT EXIST "%TEMP%" MKDIR "%TEMP%"
 
 :: Prepare cscript to download node.js
-ECHO dim xHttp: set xHttp = createobject("Microsoft.XMLHTTP") >%nodejsInstallVbs%
+ECHO WScript.StdOut.Write "Download " ^& "%nodejsMsiPackage%" ^& " ">%nodejsInstallVbs%
+:: Switched to 'WinHttp.WinHttpRequest.5.1'
+ECHO dim http: set http = createobject("WinHttp.WinHttpRequest.5.1") >>%nodejsInstallVbs%
 ECHO dim bStrm: set bStrm = createobject("Adodb.Stream") >>%nodejsInstallVbs%
-ECHO xHttp.Open "GET", "%nodejsUrl%", False >>%nodejsInstallVbs%
-ECHO xHttp.Send >>%nodejsInstallVbs%
+:: Open in asynchronous mode.
+ECHO http.Open "GET", "%nodejsUrl%", True >>%nodejsInstallVbs%
+ECHO http.Send >>%nodejsInstallVbs%
+:: Every second write a '.' until the download is complete
+ECHO while http.WaitForResponse(0) = 0 >>%nodejsInstallVbs%
+ECHO   WScript.StdOut.Write "." >>%nodejsInstallVbs%
+ECHO   WScript.Sleep 1000 >>%nodejsInstallVbs%
+ECHO wend >>%nodejsInstallVbs%
+:: ECHO WScript.StdOut.Write vbCRLF >>%nodejsInstallVbs%
+:: Write the HTTP status code onto console
+ECHO WScript.StdOut.WriteLine " [HTTP " ^& http.Status ^& " " ^& http.StatusText ^& "]" >>%nodejsInstallVbs%
 ECHO with bStrm >>%nodejsInstallVbs%
 ECHO .type = 1 '//binary >>%nodejsInstallVbs%
 ECHO .open >>%nodejsInstallVbs%
-ECHO .write xHttp.responseBody >>%nodejsInstallVbs%
+ECHO .write http.responseBody >>%nodejsInstallVbs%
 ECHO .savetofile "%TEMP%\%nodejsMsiPackage%", 2 >>%nodejsInstallVbs%
 ECHO end with >>%nodejsInstallVbs%
 
 :: Download latest version in the current folder
-ECHO Download %nodejsMsiPackage%...
-cscript.exe %nodejsInstallVbs%
+cscript.exe /NoLogo %nodejsInstallVbs%
 
 :: Extract the MSI package
 ECHO Install node.js in %nodejsPath%...
@@ -107,7 +117,7 @@ IF EXIST "%nodejsPath%\%nodejsMsiPackage%" DEL "%nodejsPath%\%nodejsMsiPackage%"
 
 :: Finish installation
 ECHO.
-IF EXIST "%nodejsPath%\node.exe" ECHO node.js successfully installed.
+IF EXIST "%nodejsPath%\node.exe" ECHO node.js successfully installed in '%nodejsPath%'
 IF NOT EXIST "%nodejsPath%\node.exe" ECHO An error occurred during the installation.
 GOTO PREPARE
 
