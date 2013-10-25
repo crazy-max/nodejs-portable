@@ -30,7 +30,7 @@ SETLOCAL EnableDelayedExpansion
 TITLE Node.js Portable v1.2
 
 :: Settings
-SET nodejsVersion=0.10.18
+SET nodejsVersion=0.10.21
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%CD%
