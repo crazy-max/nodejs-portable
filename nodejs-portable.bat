@@ -129,7 +129,7 @@ IF NOT EXIST "%nodejsPath%\node.exe" ECHO node.js is not installed... Please ins
 IF NOT %nodejsTask% == 0 GOTO PREPARE
 
 :: Init node vars
-cmd.exe /k "cd %nodejsWork% && %nodejsPath%\nodevars.bat && %nodejsPath%\npm config set globalconfig %npmGlobalConfigFilePath% --global"
+cmd.exe /k "cd "%nodejsWork%" && "%nodejsPath%\nodevars.bat" && "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global"
 GOTO MENU
 
 
