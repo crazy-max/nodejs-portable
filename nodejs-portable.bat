@@ -34,6 +34,7 @@ SET nodejsVersion=0.10.21
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%~dp0
+set nodejsPath=!nodejsPath:~0,-1!
 SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
