@@ -7,7 +7,7 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::  A DOS Batch script to make Node.js portable on Windows systems.               ::
 ::                                                                                ::
-::  Copyright (C) 2013 Cr@zy <webmaster@crazyws.fr>                               ::
+::  Copyright (C) 2013-2014 Cr@zy <webmaster@crazyws.fr>                          ::
 ::                                                                                ::
 ::  Node.js Portable is free software; you can redistribute it and/or modify      ::
 ::  it under the terms of the GNU Lesser General Public License as published by   ::
