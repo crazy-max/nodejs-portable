@@ -27,10 +27,10 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.3
+TITLE Node.js Portable v1.4
 
 :: Settings
-SET nodejsVersion=0.10.22
+SET nodejsVersion=0.10.24
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%~dp0
@@ -49,7 +49,7 @@ SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.3
+ECHO # Node.js Portable v1.4
 ECHO.
 
 ECHO  1 - Launch
