@@ -15,6 +15,12 @@ Tested on Windows XP, Windows Vista and Windows 7.
 * Run ``nodejs-portable.bat``.
 * Choose task 2 to install or task 1 to launch node.js if it's already installed.
 
+## Configuration
+
+In the ``Settings`` section line 32, you can change :
+* ``nodejsVersion`` : The node.js version.
+* ``nodejsArch`` : The OS architecture (``x86`` or ``x64``)
+
 ## Note
 
 If you have already installed node.js, just copy the folder where you want and launch the script.
