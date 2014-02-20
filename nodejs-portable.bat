@@ -30,7 +30,9 @@ SETLOCAL EnableDelayedExpansion
 TITLE Node.js Portable v1.4
 
 :: Settings
-SET nodejsVersion=0.10.24
+:: You can use "latest"
+SET nodejsVersion=0.10.25
+SET osArchitecture=x64
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%~dp0
@@ -39,8 +41,9 @@ SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
-SET nodejsMsiPackage=node-v%nodejsVersion%-x86.msi
-SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
+SET nodejsMsiPackage=node-v%nodejsVersion%-%osArchitecture%.msi
+IF %osArchitecture%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
+IF %osArchitecture%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 
 
 
@@ -49,7 +52,7 @@ SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.4
+ECHO # Node.js Portable v1.5
 ECHO.
 
 ECHO  1 - Launch
@@ -78,7 +81,7 @@ SET TEMP=%nodejsPath%\tmp
 IF NOT EXIST "%TEMP%" MKDIR "%TEMP%"
 
 :: Prepare cscript to download node.js
-ECHO WScript.StdOut.Write "Download " ^& "%nodejsMsiPackage%" ^& " ">%nodejsInstallVbs%
+ECHO WScript.StdOut.Write "Download " ^& "%nodejsUrl%" ^& " ">%nodejsInstallVbs%
 :: Switched to 'WinHttp.WinHttpRequest.5.1'
 ECHO dim http: set http = createobject("WinHttp.WinHttpRequest.5.1") >>%nodejsInstallVbs%
 ECHO dim bStrm: set bStrm = createobject("Adodb.Stream") >>%nodejsInstallVbs%
