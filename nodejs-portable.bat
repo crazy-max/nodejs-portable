@@ -27,23 +27,22 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.4
+TITLE Node.js Portable v1.5
 
 :: Settings
-:: You can use "latest"
-SET nodejsVersion=0.10.25
-SET osArchitecture=x64
+SET nodejsVersion=0.10.26
+SET nodejsArch=x86
 
 :: Batch vars (no edits necessary)
 SET nodejsPath=%~dp0
-set nodejsPath=!nodejsPath:~0,-1!
+SET nodejsPath=!nodejsPath:~0,-1!
 SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
-SET nodejsMsiPackage=node-v%nodejsVersion%-%osArchitecture%.msi
-IF %osArchitecture%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
-IF %osArchitecture%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
+SET nodejsMsiPackage=node-v%nodejsVersion%-%nodejsArch%.msi
+IF %nodejsArch%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
+IF %nodejsArch%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 
 
 
@@ -76,7 +75,7 @@ GOTO MENU
 :: Check if node.js is installed
 IF EXIST "%nodejsPath%\node.exe" ECHO node.js is already installed... && GOTO EOF
 
-:: Reloacte and create temp dir (workaround for permission issue)
+:: Relocate and create temp dir (workaround for permission issue)
 SET TEMP=%nodejsPath%\tmp
 IF NOT EXIST "%TEMP%" MKDIR "%TEMP%"
 
