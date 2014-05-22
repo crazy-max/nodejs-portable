@@ -27,13 +27,14 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.5
+TITLE Node.js Portable v1.6
 
 :: Settings
-SET nodejsVersion=0.10.26
+SET nodejsVersion=0.10.28
 SET nodejsArch=x86
 
 :: Batch vars (no edits necessary)
+SET nodejsTask=%1
 SET nodejsPath=%~dp0
 SET nodejsPath=!nodejsPath:~0,-1!
 SET nodejsWork=%nodejsPath%\work
@@ -43,6 +44,9 @@ SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
 SET nodejsMsiPackage=node-v%nodejsVersion%-%nodejsArch%.msi
 IF %nodejsArch%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
 IF %nodejsArch%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
+
+:: Check if the menu selection is provided as a command line parameter
+IF NOT "%nodejsTask%"=="" GOTO ACTION
 
 
 
@@ -61,6 +65,11 @@ ECHO.
 SET /P nodejsTask=Choose a task:
 ECHO.
 
+
+
+::::::::::::::::::::::::::::::::::::::::
+:ACTION
+::::::::::::::::::::::::::::::::::::::::
 IF %nodejsTask% == 1 GOTO LAUNCH
 IF %nodejsTask% == 2 GOTO INSTALL
 IF %nodejsTask% == 9 GOTO EXIT
