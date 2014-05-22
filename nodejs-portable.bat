@@ -55,7 +55,7 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.5
+ECHO # Node.js Portable v1.6
 ECHO.
 
 ECHO  1 - Launch
