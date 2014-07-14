@@ -27,10 +27,10 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.6
+TITLE Node.js Portable v1.7
 
 :: Settings
-SET nodejsVersion=0.10.28
+SET nodejsVersion=0.10.29
 SET nodejsArch=x86
 
 :: Batch vars (no edits necessary)
@@ -55,7 +55,7 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.6
+ECHO # Node.js Portable v1.7
 ECHO.
 
 ECHO  1 - Launch
