@@ -4,6 +4,12 @@ A DOS Batch script to make [Node.js](http://nodejs.org/) portable on Windows sys
 
 Tested on Windows XP, Windows Vista and Windows 7.
 
+## Neard
+
+Node.js Portable is now integrated on [Neard](https://github.com/crazy-max/neard) !
+
+![](http://img11.hostingpics.net/pics/412893neard.png)
+
 ## Requirements
 
 * Have an Internet connection (for installation when downloading the application).
