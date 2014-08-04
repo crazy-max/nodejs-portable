@@ -140,6 +140,12 @@ GOTO PREPARE
 IF NOT EXIST "%nodejsPath%\node.exe" ECHO node.js is not installed... Please install first... && GOTO EOF
 IF NOT %nodejsTask% == 0 GOTO PREPARE
 
+:: Where is git installed? Set temporary path.
+SET WHEREISGIT=
+IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
+FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
+SET PATH=%PATH%;%GIT%cmd
+
 :: Init node vars
 cmd.exe /k "cd "%nodejsWork%" && "%nodejsPath%\nodevars.bat" && "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global"
 GOTO MENU
