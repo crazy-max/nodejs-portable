@@ -7,7 +7,7 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::  A DOS Batch script to make Node.js portable on Windows systems.               ::
 ::                                                                                ::
-::  Copyright (C) 2013-2014 Cr@zy <webmaster@crazyws.fr>                          ::
+::  Copyright (C) 2013-2015 Cr@zy <webmaster@crazyws.fr>                          ::
 ::                                                                                ::
 ::  Node.js Portable is free software; you can redistribute it and/or modify      ::
 ::  it under the terms of the GNU Lesser General Public License as published by   ::
@@ -27,10 +27,10 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.8
+TITLE Node.js Portable v1.9
 
 :: Settings
-SET nodejsVersion=0.10.34
+SET nodejsVersion=0.10.35
 SET nodejsArch=x86
 
 :: Batch vars (no edits necessary)
@@ -55,7 +55,7 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.8
+ECHO # Node.js Portable v1.9
 ECHO.
 
 ECHO  1 - Launch
