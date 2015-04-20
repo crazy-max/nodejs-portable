@@ -32,6 +32,9 @@ TITLE Node.js Portable v1.9
 :: Settings
 SET nodejsVersion=0.10.35
 SET nodejsArch=x86
+::SET proxyUrl=<url>:<port>
+::SET proxyUser=<domain>\<user>
+::SET proxyPwd=<password>
 
 :: Batch vars (no edits necessary)
 SET nodejsTask=%1
@@ -92,9 +95,11 @@ IF NOT EXIST "%TEMP%" MKDIR "%TEMP%"
 ECHO WScript.StdOut.Write "Download " ^& "%nodejsUrl%" ^& " ">%nodejsInstallVbs%
 :: Switched to 'WinHttp.WinHttpRequest.5.1'
 ECHO dim http: set http = createobject("WinHttp.WinHttpRequest.5.1") >>%nodejsInstallVbs%
+IF DEFINED proxyUrl ECHO http.SetProxy 2, "%proxyUrl%", "localhost" >>%nodejsInstallVbs%
 ECHO dim bStrm: set bStrm = createobject("Adodb.Stream") >>%nodejsInstallVbs%
 :: Open in asynchronous mode.
 ECHO http.Open "GET", "%nodejsUrl%", True >>%nodejsInstallVbs%
+IF DEFINED proxyUser IF DEFINED proxyPwd ECHO http.SetCredentials "%proxyUser%", "%proxyPwd%", "1" >>%nodejsInstallVbs%
 ECHO http.Send >>%nodejsInstallVbs%
 :: Every second write a '.' until the download is complete
 ECHO while http.WaitForResponse(0) = 0 >>%nodejsInstallVbs%
