@@ -192,11 +192,24 @@ IF NOT EXIST "%nodejsPath%\node.exe" (
 CALL :PREPARE
 
 :: Where is git installed? Set temporary path.
-SET WHEREISGIT=
-IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
-FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
-ECHO Adding Git from %GIT%cmd to PATH in case it is not available there yet
-PATH=%nodejsPath%;%PATH%;%GIT%cmd
+ECHO Looking for Git...
+SET GIT_HOME=
+where git
+IF ERRORLEVEL 1 (
+  ECHO Git is not found in PATH, looking in Registry where it is installed...
+  SET WHEREISGIT=
+  IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
+  FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT_HOME=%%G
+) ELSE (
+  ECHO Git found in PATH
+)
+IF "%GIT_HOME%" == "" GOTO :DONE_WITH_GIT
+SET GIT_CMD=%GIT_HOME%cmd
+ECHO Adding Git to PATH %GIT_CMD%
+SET PATH=%GIT_CMD%;%PATH%
+:DONE_WITH_GIT
+
+PATH=%nodejsPath%;%PATH%
 
 :: Init node vars
 IF DEFINED nonInteractiveMode (
