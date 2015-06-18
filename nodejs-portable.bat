@@ -205,11 +205,13 @@ IF ERRORLEVEL 1 (
 )
 IF "%GIT_HOME%" == "" GOTO :DONE_WITH_GIT
 SET GIT_CMD=%GIT_HOME%cmd
-ECHO Adding Git to PATH %GIT_CMD%
+ECHO Adding Git to PATH: %GIT_CMD%
 SET PATH=%GIT_CMD%;%PATH%
 :DONE_WITH_GIT
 
-PATH=%nodejsPath%;%PATH%
+ECHO Adding Node to PATH: %nodejsPath%
+ECHO Adding Node global tools to PATH: %nodejsPath%\node_modules\.bin
+PATH=%nodejsPath%;%nodejsPath%\node_modules\.bin;%PATH%
 
 :: Init node vars
 IF DEFINED nonInteractiveMode (
