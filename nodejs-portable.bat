@@ -1,6 +1,7 @@
 @ECHO OFF
-SETLOCAL EnableDelayedExpansion
 
+:: 
+::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::                                                                                ::
 ::  Node.js Portable                                                              ::
@@ -23,33 +24,45 @@ SETLOCAL EnableDelayedExpansion
 ::  along with this program. If not, see http://www.gnu.org/licenses/.            ::
 ::                                                                                ::
 ::  Related post: http://goo.gl/gavL4                                             ::
-::  Usage: nodejs-portable.bat                                                    ::
+::  Usage: nodejs-portable.bat [action] [target_dir] [work_dir]                   ::
+::                                                                                ::
+::    action:     1 = launch Node.js, 2 = Install Node.js                         ::
+::                                                                                ::
+::    target_dir: where to install/locate Node.js. Default = '.'                  ::
+::                                                                                ::
+::    work_dir:   directory where work will be performed                          ::
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.9
+SET currentBatchTitle=Node.js Portable v1.10
+TITLE %currentBatchTitle%
 
 :: Settings
-SET nodejsVersion=0.10.35
-SET nodejsArch=x86
+SET nodejsVersion=0.12.4
+SET nodejsArch=x64
+::SET nodejsArch=x86
 ::SET proxyUrl=<url>:<port>
 ::SET proxyUser=<domain>\<user>
 ::SET proxyPwd=<password>
 
+:: Parameters (can be provided as command line arguments)
+SET nonInteractiveMode=%~1
+SET nodejsTask=%~1
+SET nodejsPath=%~dpnx2
+IF "%nodejsPath%"=="" SET nodejsPath=%CD%
+IF "%nodejsPath:~-1%"=="\" SET nodejsPath=%nodejsPath:~0,-1%
+SET nodejsWork=%~dpnx3
+IF "%nodejsWork%"=="" SET nodejsWork=%nodejsPath%\work
+
 :: Batch vars (no edits necessary)
-SET nodejsTask=%1
-SET nodejsPath=%~dp0
-SET nodejsPath=!nodejsPath:~0,-1!
-SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
-SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
 SET nodejsMsiPackage=node-v%nodejsVersion%-%nodejsArch%.msi
 IF %nodejsArch%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
 IF %nodejsArch%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 
 :: Check if the menu selection is provided as a command line parameter
-IF NOT "%nodejsTask%"=="" GOTO ACTION
+IF NOT "%nodejsTask%"=="" GOTO :ACTION
 
 
 
@@ -58,7 +71,9 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.9
+ECHO # %currentBatchTitle%
+ECHO.
+ECHO Target: Node.js version %nodejsVersion% in %nodejsPath% 
 ECHO.
 
 ECHO  1 - Launch
@@ -73,10 +88,24 @@ ECHO.
 ::::::::::::::::::::::::::::::::::::::::
 :ACTION
 ::::::::::::::::::::::::::::::::::::::::
-IF %nodejsTask% == 1 GOTO LAUNCH
-IF %nodejsTask% == 2 GOTO INSTALL
-IF %nodejsTask% == 9 GOTO EXIT
-GOTO MENU
+IF "%nodejsTask%" == "1" (
+ CALL :LAUNCH
+ GOTO :ACTION_DONE
+)
+IF "%nodejsTask%" == "2" (
+ CALL :INSTALL
+ GOTO :ACTION_DONE
+)
+IF "%nodejsTask%" == "9" GOTO :EXIT
+
+echo Unknown action: %nodejsTask%
+
+::::::::::::::::::::::::::::::::::::::::
+:ACTION_DONE
+::::::::::::::::::::::::::::::::::::::::
+IF DEFINED nonInteractiveMode GOTO :EXIT
+
+GOTO :MENU
 
 
 
@@ -84,15 +113,22 @@ GOTO MENU
 :INSTALL
 ::::::::::::::::::::::::::::::::::::::::
 
-:: Check if node.js is installed
-IF EXIST "%nodejsPath%\node.exe" ECHO node.js is already installed... && GOTO EOF
+:: Check if Node.js is installed
+IF EXIST "%nodejsPath%\node.exe" (
+  ECHO Node.js is already installed in %nodejsPath%
+  IF NOT DEFINED nonInteractiveMode PAUSE
+  GOTO :EOF
+)
 
 :: Relocate and create temp dir (workaround for permission issue)
-SET TEMP=%nodejsPath%\tmp
+SET TEMP=%nodejsPath%\%~n0.tmp
+SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
+SET nodejsMsiPackageTempFile=%TEMP%\%nodejsMsiPackage%
 IF NOT EXIST "%TEMP%" MKDIR "%TEMP%"
 
-:: Prepare cscript to download node.js
-ECHO WScript.StdOut.Write "Download " ^& "%nodejsUrl%" ^& " ">%nodejsInstallVbs%
+:: Prepare cscript to download Node.js
+ECHO WScript.StdOut.WriteLine "Downloading " ^& "%nodejsUrl%" >%nodejsInstallVbs%
+ECHO WScript.StdOut.WriteLine "         to " ^& "%nodejsMsiPackageTempFile%" >>%nodejsInstallVbs%
 :: Switched to 'WinHttp.WinHttpRequest.5.1'
 ECHO dim http: set http = createobject("WinHttp.WinHttpRequest.5.1") >>%nodejsInstallVbs%
 IF DEFINED proxyUrl ECHO http.SetProxy 2, "%proxyUrl%", "localhost" >>%nodejsInstallVbs%
@@ -113,15 +149,15 @@ ECHO with bStrm >>%nodejsInstallVbs%
 ECHO .type = 1 '//binary >>%nodejsInstallVbs%
 ECHO .open >>%nodejsInstallVbs%
 ECHO .write http.responseBody >>%nodejsInstallVbs%
-ECHO .savetofile "%TEMP%\%nodejsMsiPackage%", 2 >>%nodejsInstallVbs%
+ECHO .savetofile "%nodejsMsiPackageTempFile%", 2 >>%nodejsInstallVbs%
 ECHO end with >>%nodejsInstallVbs%
 
 :: Download latest version in the current folder
 cscript.exe /NoLogo %nodejsInstallVbs%
 
 :: Extract the MSI package
-ECHO Install node.js in %nodejsPath%...
-msiexec /a "%TEMP%\%nodejsMsiPackage%" /qn TARGETDIR="%nodejsPath%"
+ECHO Installing Node.js %nodejsVersion% in %nodejsPath%
+msiexec /a "%nodejsMsiPackageTempFile%" /qn TARGETDIR="%nodejsPath%"
 XCOPY "%nodejsPath%\nodejs" "%nodejsPath%" /s /e /i /h /y
 
 :: Clean folders
@@ -131,35 +167,72 @@ IF EXIST "%nodejsPath%\%nodejsMsiPackage%" DEL "%nodejsPath%\%nodejsMsiPackage%"
 
 :: Finish installation
 ECHO.
-IF EXIST "%nodejsPath%\node.exe" ECHO node.js successfully installed in '%nodejsPath%'
-IF NOT EXIST "%nodejsPath%\node.exe" ECHO An error occurred during the installation.
-GOTO PREPARE
+IF EXIST "%nodejsPath%\node.exe" ECHO Node.js successfully installed in %nodejsPath%
+IF NOT EXIST "%nodejsPath%\node.exe" (
+  ECHO An error occurred during the installation.
+) ELSE (
+  CALL :PREPARE
+)
 
+IF NOT DEFINED nonInteractiveMode PAUSE
+GOTO :EOF
 
 
 ::::::::::::::::::::::::::::::::::::::::
 :LAUNCH
 ::::::::::::::::::::::::::::::::::::::::
+ECHO Configuring environement for Node.js %nodejsVersion% in %nodejsPath%
 
-:: Check if node.js is installed
-IF NOT EXIST "%nodejsPath%\node.exe" ECHO node.js is not installed... Please install first... && GOTO EOF
-IF NOT %nodejsTask% == 0 GOTO PREPARE
+:: Check if Node.js is installed
+IF NOT EXIST "%nodejsPath%\node.exe" (
+  ECHO Node.js is not installed in %nodejsPath%. Please install first...
+  IF NOT DEFINED nonInteractiveMode PAUSE
+  GOTO :EOF
+)
+CALL :PREPARE
 
 :: Where is git installed? Set temporary path.
-SET WHEREISGIT=
-IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
-FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
-SET PATH=%PATH%;%GIT%cmd
+ECHO Looking for Git...
+SET GIT_HOME=
+where git
+IF ERRORLEVEL 1 (
+  ECHO Git is not found in PATH, looking in Registry where it is installed...
+  SET WHEREISGIT=
+  IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
+  FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT_HOME=%%G
+) ELSE (
+  ECHO Git found in PATH
+)
+IF "%GIT_HOME%" == "" GOTO :DONE_WITH_GIT
+SET GIT_CMD=%GIT_HOME%cmd
+ECHO Adding Git to PATH: %GIT_CMD%
+SET PATH=%GIT_CMD%;%PATH%
+:DONE_WITH_GIT
+
+ECHO Adding Node to PATH: %nodejsPath%
+ECHO Adding Node global tools to PATH: %nodejsPath%\node_modules\.bin
+PATH=%nodejsPath%;%nodejsPath%\node_modules\.bin;%PATH%
 
 :: Init node vars
-cmd.exe /k "cd "%nodejsWork%" && "%nodejsPath%\nodevars.bat" && "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global"
-GOTO MENU
+IF DEFINED nonInteractiveMode (
+  ECHO Configuring current command line processor...
+  cd "%nodejsWork%"
+  call "%nodejsPath%\nodevars.bat"
+  call "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global
+) ELSE (
+  ECHO.
+  ECHO Starting new command line processor...
+  cmd.exe /k "cd "%nodejsWork%" && "%nodejsPath%\nodevars.bat" && ECHO. && ECHO Type 'exit' when you are done working with Node.js && CALL "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global"
+)
+
+GOTO :EOF
 
 
 
 ::::::::::::::::::::::::::::::::::::::::
 :PREPARE
 ::::::::::::::::::::::::::::::::::::::::
+ECHO Preparing Node.js %nodejsVersion% in %nodejsPath%
 
 :: Relocate and edit NPM global config file
 ECHO prefix = %nodejsPath%\ >%npmGlobalConfigFilePath%
@@ -172,18 +245,7 @@ IF NOT EXIST "%nodejsWork%" MKDIR "%nodejsWork%"
 IF NOT EXIST "%npmPath%\npmignore" ECHO. 2>"%npmPath%\npmignore"
 IF NOT EXIST "%npmPath%\init.js" ECHO. 2>"%npmPath%\init.js"
 IF NOT EXIST "%npmPath%\cache" MKDIR "%npmPath%\cache"
-IF %nodejsTask% == 1 SET nodejsTask=0 && GOTO LAUNCH
-GOTO EOF
-
-
-
-::::::::::::::::::::::::::::::::::::::::
-:EOF
-::::::::::::::::::::::::::::::::::::::::
-
-ECHO.
-PAUSE
-GOTO MENU
+GOTO :EOF
 
 
 
@@ -192,3 +254,4 @@ GOTO MENU
 ::::::::::::::::::::::::::::::::::::::::
 
 ENDLOCAL
+
