@@ -19,13 +19,7 @@ Node.js Portable is now integrated on [Neard](https://github.com/crazy-max/neard
 
 * Put the ``nodejs-portable.bat`` in the same directory as ``node.exe`` or in an empty directory for a new installation.
 * Run ``nodejs-portable.bat``.
-* Choose task 2 to install or task 1 to launch node.js if it's already installed.
-
-## Configuration
-
-In the ``Settings`` section line 32, you can change :
-* ``nodejsVersion`` : The node.js version.
-* ``nodejsArch`` : The OS architecture (``x86`` or ``x64``)
+* Choose task 2 to install node.js and select version/arch or task 1 to launch node.js if it's already installed.
 
 ## Note
 
