@@ -30,7 +30,7 @@ SETLOCAL EnableDelayedExpansion
 TITLE Node.js Portable v1.9
 
 :: Settings
-SET nodejsVersion=0.10.35
+SET nodejsVersion=4.1.1
 SET nodejsArch=x86
 ::SET proxyUrl=<url>:<port>
 ::SET proxyUser=<domain>\<user>
@@ -45,8 +45,7 @@ SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
 SET nodejsMsiPackage=node-v%nodejsVersion%-%nodejsArch%.msi
-IF %nodejsArch%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
-IF %nodejsArch%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
+SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 
 :: Check if the menu selection is provided as a command line parameter
 IF NOT "%nodejsTask%"=="" GOTO ACTION
