@@ -27,10 +27,10 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.9
+TITLE Node.js Portable v1.10
 
 :: Settings
-SET nodejsVersion=0.10.35
+SET nodejsVersion=0.10.40
 SET nodejsArch=x86
 ::SET proxyUrl=<url>:<port>
 ::SET proxyUser=<domain>\<user>
@@ -44,9 +44,6 @@ SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
-SET nodejsMsiPackage=node-v%nodejsVersion%-%nodejsArch%.msi
-IF %nodejsArch%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/x64/%nodejsMsiPackage%
-IF %nodejsArch%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersion%/%nodejsMsiPackage%
 
 :: Check if the menu selection is provided as a command line parameter
 IF NOT "%nodejsTask%"=="" GOTO ACTION
@@ -58,14 +55,14 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.9
+ECHO # Node.js Portable v1.10
 ECHO.
 
 ECHO  1 - Launch
 ECHO  2 - Install
 ECHO  9 - Exit
 ECHO.
-SET /P nodejsTask=Choose a task:
+SET /P nodejsTask=Choose a task: 
 ECHO.
 
 
@@ -86,6 +83,27 @@ GOTO MENU
 
 :: Check if node.js is installed
 IF EXIST "%nodejsPath%\node.exe" ECHO node.js is already installed... && GOTO EOF
+
+:: Choose version and arch
+SET nodejsVersionC=%nodejsVersion%
+SET /P nodejsVersionC=Version (default %nodejsVersion%): 
+SET nodejsArchC=%nodejsArch%
+SET /P nodejsArchC=Architecture x86 or x64 (default %nodejsArch%): 
+ECHO.
+
+:: Prepare URLs
+SET nodejsMsiPackage=node-v%nodejsVersionC%-%nodejsArchC%.msi
+FOR /f "delims=. tokens=1-3" %%a IN ("%nodejsVersionC%") DO (
+  SET nodejsVersionC.major=%%a
+  SET nodejsVersionC.minor=%%b
+  SET nodejsVersionC.build=%%c
+)
+IF %nodejsVersionC.major% GTR 0 (
+  SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersionC%/%nodejsMsiPackage%
+) ELSE (
+  IF %nodejsArchC%==x64 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersionC%/x64/%nodejsMsiPackage%
+  IF %nodejsArchC%==x86 SET nodejsUrl=http://nodejs.org/dist/v%nodejsVersionC%/%nodejsMsiPackage%
+)
 
 :: Relocate and create temp dir (workaround for permission issue)
 SET TEMP=%nodejsPath%\tmp
