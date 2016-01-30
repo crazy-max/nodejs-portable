@@ -7,7 +7,7 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::  A DOS Batch script to make Node.js portable on Windows systems.               ::
 ::                                                                                ::
-::  Copyright (C) 2013-2015 Cr@zy <webmaster@crazyws.fr>                          ::
+::  Copyright (C) 2013-2016 Cr@zy <webmaster@crazyws.fr>                          ::
 ::                                                                                ::
 ::  Node.js Portable is free software; you can redistribute it and/or modify      ::
 ::  it under the terms of the GNU Lesser General Public License as published by   ::
@@ -27,7 +27,7 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.10
+TITLE Node.js Portable v1.11
 
 :: Settings
 SET nodejsVersion=0.10.40
@@ -55,7 +55,7 @@ IF NOT "%nodejsTask%"=="" GOTO ACTION
 ::::::::::::::::::::::::::::::::::::::::
 CLS
 ECHO.
-ECHO # Node.js Portable v1.10
+ECHO # Node.js Portable v1.11
 ECHO.
 
 ECHO  1 - Launch
@@ -166,8 +166,13 @@ IF NOT %nodejsTask% == 0 GOTO PREPARE
 :: Where is git installed? Set temporary path.
 SET WHEREISGIT=
 IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
-FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
-SET PATH=%PATH%;%GIT%cmd
+REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation >nul 2>nul
+IF %ERRORLEVEL% EQU 0 (
+  FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
+  SET PATH=%PATH%;%GIT%cmd
+) ELSE (
+  ECHO Git installation not found...
+)
 
 :: Init node vars
 cmd.exe /k "cd "%nodejsWork%" && "%nodejsPath%\nodevars.bat" && "%nodejsPath%\npm" config set globalconfig "%npmGlobalConfigFilePath%" --global"
@@ -188,7 +193,6 @@ ECHO cache = %npmPath%\cache >>%npmGlobalConfigFilePath%
 
 IF NOT EXIST "%nodejsWork%" MKDIR "%nodejsWork%"
 IF NOT EXIST "%npmPath%\npmignore" ECHO. 2>"%npmPath%\npmignore"
-IF NOT EXIST "%npmPath%\init.js" ECHO. 2>"%npmPath%\init.js"
 IF NOT EXIST "%npmPath%\cache" MKDIR "%npmPath%\cache"
 IF %nodejsTask% == 1 SET nodejsTask=0 && GOTO LAUNCH
 GOTO EOF
