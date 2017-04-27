@@ -30,6 +30,22 @@ Tested on Windows XP, Windows Vista and Windows 7.
 
 If you have already installed node.js, just copy the folder where you want and launch the script.
 
+
+## How can i help ?
+
+We welcome all kinds of contributions :raised_hands:!<br />
+The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
+Any funds donated will be used to help further development on this project! :gift_heart:
+
+<p>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4Y9DDQ8LDLMTL">
+    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/paypal.png" alt="Donate Paypal">
+  </a>
+  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable">
+    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/flattr.png" alt="Flattr this!">
+  </a>
+</p>
+
 ## License
 
 LGPL. See `LICENSE` for more details.<br />
