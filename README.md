@@ -1,14 +1,18 @@
-# Node.js Portable
+> Node.js Portable is now integrated on [Neard](http://neard.io) !
 
-A DOS Batch script to make [Node.js](http://nodejs.org/) portable on Windows systems.
+<p align="center"><a href="https://github.com/crazy-max/nodejs-portable" target="_blank"><img width="100" src="https://github.com/crazy-max/nodejs-portable/blob/master/res/logo.png"></a></p>
 
+<p align="center">
+  <a href="https://github.com/crazy-max/nodejs-portable/releases/latest"><img src="https://img.shields.io/github/release/crazy-max/nodejs-portable.svg?style=flat-square" alt="GitHub release"></a>
+  <a href="https://github.com/crazy-max/nodejs-portable/releases/latest"><img src="https://img.shields.io/github/downloads/crazy-max/nodejs-portable/total.svg?style=flat-square" alt="Total downloads"></a>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU"><img src="https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square" alt="Donate Paypal"></a>
+  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
+</p>
+
+## About
+
+A DOS Batch script to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
 Tested on Windows XP, Windows Vista and Windows 7.
-
-## Neard
-
-Node.js Portable is now integrated on [Neard](https://github.com/crazy-max/neard) !
-
-![](http://img11.hostingpics.net/pics/412893neard.png)
 
 ## Requirements
 
@@ -17,8 +21,9 @@ Node.js Portable is now integrated on [Neard](https://github.com/crazy-max/neard
 
 ## Installation
 
-* Put the ``nodejs-portable.bat`` in the same directory as ``node.exe`` or in an empty directory for a new installation.
-* Run ``nodejs-portable.bat``.
+* Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
+* Put `nodejs-portable.bat` in the same directory as `node.exe` or in an empty directory for a new installation.
+* Run `nodejs-portable.bat`.
 * Choose task 2 to install node.js and select version/arch or task 1 to launch node.js if it's already installed.
 
 ## Note
@@ -27,8 +32,5 @@ If you have already installed node.js, just copy the folder where you want and l
 
 ## License
 
-LGPL. See ``LICENSE`` for more details.
-
-## More infos
-
-http://www.crazyws.fr/dev/applis-et-scripts/node-js-portable-JWSN9.html
+LGPL. See `LICENSE` for more details.<br />
+USB icon credit to [Dakirby309](http://dakirby309.deviantart.com/).
