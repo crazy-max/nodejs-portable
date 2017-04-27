@@ -161,7 +161,7 @@ GOTO PREPARE
 
 :: Check if node.js is installed
 IF NOT EXIST "%nodejsPath%\node.exe" ECHO node.js is not installed... Please install first... && GOTO EOF
-IF NOT %nodejsTask% == 0 GOTO PREPARE
+IF NOT "%nodejsTask%" == 0 GOTO PREPARE
 
 :: Where is git installed? Set temporary path.
 SET WHEREISGIT=
