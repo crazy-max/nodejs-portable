@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12 (2017/04/27)
+
+* Switch to Node.js 6.10.2
+* Add CHANGELOG
+
 ## 1.11 (2016/01/30)
 
 * Bug with npm init command (Issue #21)

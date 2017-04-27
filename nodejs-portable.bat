@@ -3,7 +3,7 @@ SETLOCAL EnableDelayedExpansion
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::                                                                                ::
-::  Node.js Portable                                                              ::
+::  Node.js Portable 1.12                                                         ::
 ::                                                                                ::
 ::  A DOS Batch script to make Node.js portable on Windows systems.               ::
 ::                                                                                ::
@@ -22,15 +22,14 @@ SETLOCAL EnableDelayedExpansion
 ::  You should have received a copy of the GNU Lesser General Public License      ::
 ::  along with this program. If not, see http://www.gnu.org/licenses/.            ::
 ::                                                                                ::
-::  Related post: http://goo.gl/gavL4                                             ::
 ::  Usage: nodejs-portable.bat                                                    ::
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable v1.11
+TITLE Node.js Portable 1.12
 
 :: Settings
-SET nodejsVersion=0.10.40
+SET nodejsVersion=6.10.2
 SET nodejsArch=x86
 ::SET proxyUrl=<url>:<port>
 ::SET proxyUser=<domain>\<user>
@@ -62,7 +61,7 @@ ECHO  1 - Launch
 ECHO  2 - Install
 ECHO  9 - Exit
 ECHO.
-SET /P nodejsTask=Choose a task: 
+SET /P nodejsTask=Choose a task:
 ECHO.
 
 
@@ -86,9 +85,9 @@ IF EXIST "%nodejsPath%\node.exe" ECHO node.js is already installed... && GOTO EO
 
 :: Choose version and arch
 SET nodejsVersionC=%nodejsVersion%
-SET /P nodejsVersionC=Version (default %nodejsVersion%): 
+SET /P nodejsVersionC=Version (default %nodejsVersion%):
 SET nodejsArchC=%nodejsArch%
-SET /P nodejsArchC=Architecture x86 or x64 (default %nodejsArch%): 
+SET /P nodejsArchC=Architecture x86 or x64 (default %nodejsArch%):
 ECHO.
 
 :: Prepare URLs
