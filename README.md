@@ -38,7 +38,7 @@ The most basic way to show your support is to star :star2: the project, or to ra
 Any funds donated will be used to help further development on this project! :gift_heart:
 
 <p>
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4Y9DDQ8LDLMTL">
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU">
     <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/paypal.png" alt="Donate Paypal">
   </a>
   <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable">
