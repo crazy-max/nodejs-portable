@@ -3,7 +3,7 @@ SETLOCAL EnableDelayedExpansion
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::                                                                                ::
-::  Node.js Portable 1.12                                                         ::
+::  Node.js Portable 1.13                                                         ::
 ::                                                                                ::
 ::  A DOS Batch script to make Node.js portable on Windows systems.               ::
 ::                                                                                ::
@@ -26,10 +26,10 @@ SETLOCAL EnableDelayedExpansion
 ::                                                                                ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-TITLE Node.js Portable 1.12
+TITLE Node.js Portable 1.13
 
 :: Settings
-SET nodejsVersion=6.10.2
+SET nodejsVersion=6.11.1
 SET nodejsArch=x86
 ::SET proxyUrl=<url>:<port>
 ::SET proxyUser=<domain>\<user>
@@ -43,6 +43,9 @@ SET nodejsWork=%nodejsPath%\work
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 SET nodejsInstallVbs=%TEMP%\nodejs_install.vbs
+
+:: Relocate to current folder
+PUSHD "%~dp0"
 
 :: Check if the menu selection is provided as a command line parameter
 IF NOT "%nodejsTask%"=="" GOTO ACTION
@@ -61,7 +64,7 @@ ECHO  1 - Launch
 ECHO  2 - Install
 ECHO  9 - Exit
 ECHO.
-SET /P nodejsTask=Choose a task:
+SET /P nodejsTask=Choose a task: 
 ECHO.
 
 
@@ -85,9 +88,9 @@ IF EXIST "%nodejsPath%\node.exe" ECHO node.js is already installed... && GOTO EO
 
 :: Choose version and arch
 SET nodejsVersionC=%nodejsVersion%
-SET /P nodejsVersionC=Version (default %nodejsVersion%):
+SET /P nodejsVersionC=Version (default %nodejsVersion%): 
 SET nodejsArchC=%nodejsArch%
-SET /P nodejsArchC=Architecture x86 or x64 (default %nodejsArch%):
+SET /P nodejsArchC=Architecture x86 or x64 (default %nodejsArch%): 
 ECHO.
 
 :: Prepare URLs
@@ -168,9 +171,9 @@ IF /i NOT "%PROCESSOR_ARCHITECTURE%"=="x86" SET WHEREISGIT=\Wow6432Node
 REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation >nul 2>nul
 IF %ERRORLEVEL% EQU 0 (
   FOR /F "tokens=2*" %%F in ('REG QUERY HKLM\SOFTWARE%WHEREISGIT%\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1 /v InstallLocation') DO SET GIT=%%G
-  SET PATH=%PATH%;%GIT%cmd
-) ELSE (
-  ECHO Git installation not found...
+  IF DEFINED GIT (
+    SET "PATH=%PATH%;%GIT%cmd"
+  )
 )
 
 :: Init node vars

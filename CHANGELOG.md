@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.13 (2017/07/27)
+
+* Crash when invalid characters in PATH variable (Issue #26)
+* Push to working directory (Issue #25)
+* "\Git\cmd" syntax error on launch (Issue #23)
+* Switch to Node.js 6.11.1
+
 ## 1.12 (2017/04/27)
 
 * Switch to Node.js 6.10.2
