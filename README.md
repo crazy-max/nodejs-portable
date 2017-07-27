@@ -12,7 +12,7 @@
 ## About
 
 A DOS Batch script to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
-Tested on Windows XP, Windows Vista and Windows 7.
+Tested on Windows 7 and later.
 
 ## Requirements
 
