@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="nodejs-portable" basedir=".">
+
+  <dirname property="project.basedir" file="${ant.file.nodejs-portable}"/>
+  <property name="build.properties" value="${project.basedir}/build.properties"/>
+  <property file="${build.properties}"/>
+
+  <!-- Properties -->
+  <property environment="env"/>
+  <property name="app.path" value="${project.basedir}\app"/>
+  <property name="bin.path" value="${project.basedir}\bin"/>
+  <property name="release.path" value="${bin.path}\release"/>
+  <property name="lib.path" value="${bin.path}\lib"/>
+  <property name="tmp.path" value="${bin.path}\tmp"/>
+  <property name="glide" value="${lib.path}\glide\windows-386\glide.exe"/>
+  <property name="rcedit" value="${lib.path}\rcedit\rcedit.exe"/>
+
+  <!-- Functions -->
+  <macrodef name="assertdir">
+    <attribute name="dir"/>
+    <sequential>
+      <fail message="Directory '@{dir}' does not exist">
+        <condition><not><available file="@{dir}" type="dir"/></not></condition>
+      </fail>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="assertfile">
+    <attribute name="file"/>
+    <sequential>
+      <fail message="File '@{file}' does not exist">
+        <condition><not><available file="@{file}" type="file"/></not></condition>
+      </fail>
+    </sequential>
+  </macrodef>
+
+  <!-- Build number -->
+  <condition property="app.release" value="${env.APPVEYOR_BUILD_NUMBER}"><isset property="env.APPVEYOR_BUILD_NUMBER"/></condition>
+  <condition property="app.release" value="${app.default.release}"><not><isset property="env.APPVEYOR_BUILD_NUMBER"/></not></condition>
+
+  <!-- Filterset -->
+  <filterset id="filterset.app">
+    <filter token="APP_ID" value="${app.id}"/>
+    <filter token="APP_NAME" value="${app.name}"/>
+    <filter token="APP_DESC" value="${app.desc}"/>
+    <filter token="APP_VERSION" value="${app.version}"/>
+    <filter token="APP_RELEASE" value="${app.release}"/>
+    <filter token="APP_COPYRIGHT" value="${app.url}"/>
+  </filterset>
+  <echo message="-----------------------------------"/>
+  <echo message="APP_ID        : ${app.id}"/>
+  <echo message="APP_NAME      : ${app.name}"/>
+  <echo message="APP_DESC      : ${app.desc}"/>
+  <echo message="APP_VERSION   : ${app.version}"/>
+  <echo message="APP_RELEASE   : ${app.release}"/>
+  <echo message="APP_COPYRIGHT : ${app.url}"/>
+  <echo message="-----------------------------------"/>
+
+  <target name="setup" depends="init, glide, generate" description="Setup workspace"/>
+  <target name="release" depends="init, build" description="Release">
+    <echo message="Writing version.dat..."/>
+    <echo file="${tmp.path}/version.dat" append="false">${app.version}</echo>
+  </target>
+
+  <target name="init" depends="load.libs">
+    <mkdir dir="${bin.path}"/>
+    <mkdir dir="${lib.path}"/>
+    <mkdir dir="${tmp.path}"/>
+    <delete dir="${release.path}"/>
+  </target>
+
+  <target name="load.libs" unless="is.lib.loaded" depends="
+      load.lib.antcontrib,
+      load.lib.glide">
+    <var name="is.lib.loaded" value="true"/>
+  </target>
+
+  <target name="load.lib.antcontrib" unless="is.lib.loaded">
+    <echo message="Load ANT Contrib"/>
+    <mkdir dir="${lib.path}\ant-contrib"/>
+    <get dest="${lib.path}\ant-contrib\ant-contrib.jar" src="${antcontrib.url}" skipexisting="true"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+        <fileset dir="${lib.path}/ant-contrib">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </taskdef>
+  </target>
+
+  <target name="load.lib.glide" unless="is.lib.loaded">
+    <echo message="Load Glide"/>
+    <get dest="${lib.path}\glide.zip" src="${glide.url}" skipexisting="true"/>
+    <if>
+      <not><available file="${lib.path}\glide" type="dir"/></not>
+      <then>
+        <unzip src="${lib.path}\glide.zip" dest="${lib.path}\glide"/>
+      </then>
+    </if>
+    <assertfile file="${glide}"/>
+  </target>
+
+  <target name="glide">
+    <exec executable="${glide}" failonerror="true" dir="${project.basedir}">
+      <arg value="install"/>
+      <arg value="-v"/>
+    </exec>
+  </target>
+
+  <target name="generate">
+    <copy file="${app.path}/versioninfo.json" todir="${project.basedir}" overwrite="true">
+      <filterset refid="filterset.app"/>
+    </copy>
+    <exec executable="go" failonerror="true" dir="${project.basedir}">
+      <env key="GOARCH" value="386"/>
+      <arg value="generate"/>
+      <arg value="-v"/>
+    </exec>
+  </target>
+
+  <target name="build" depends="glide, generate">
+    <exec executable="go" failonerror="true" dir="${project.basedir}">
+      <env key="GOARCH" value="386"/>
+      <arg value="build"/>
+      <arg value="-o"/>
+      <arg value="${release.path}\${app.id}.exe"/>
+      <arg value="-v"/>
+      <arg value="-ldflags"/>
+      <arg value="-s -w"/>
+    </exec>
+    <assertfile file="${release.path}\${app.id}.exe"/>
+  </target>
+
+</project>

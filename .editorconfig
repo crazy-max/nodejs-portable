@@ -11,5 +11,11 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.go]
+indent_style = tab
+
 [*.md]
 trim_trailing_whitespace = false
+
+[res/latest]
+insert_final_newline = false
