@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.0 (2017/07/27)
+
+* BIG rewrite in Golang! (Issue #22)
+* Use lessmsi instead of msiexec for long path issue
+* Check Node.js version before downloading
+* Automatically retrieve the latest stable version of Node.js as default choice
+* Inject Node and Git (if exists) paths in system environment PATH while launching shell
+* Add new release notification
+* Add support guidelines
+* MIT license
+
 ## 1.13 (2017/07/27)
 
 * Crash when invalid characters in PATH variable (Issue #26)
