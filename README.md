@@ -18,7 +18,7 @@ A single EXE written in [Go](https://golang.org/) to make [Node.js](http://nodej
 Tested on Windows 7, Windows 8.1 and Windows 10.
 
 ![](res/screenshot-20170729.png)
-> Main window of WindowsSpyBlocker
+> Main window of Node.js Portable
 
 ## Requirements
 
