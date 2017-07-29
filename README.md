@@ -17,6 +17,9 @@
 A single EXE written in [Go](https://golang.org/) to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
 Tested on Windows 7, Windows 8.1 and Windows 10.
 
+![](res/screenshot-20170729.png)
+> Main window of WindowsSpyBlocker
+
 ## Requirements
 
 * An Internet connection (for installation while downloading Node.js).
@@ -26,7 +29,7 @@ Tested on Windows 7, Windows 8.1 and Windows 10.
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
 * Put `nodejs-portable.exe` in the same directory as `node.exe` or in an empty directory for a new installation.
 * Run `nodejs-portable.exe`.
-* Choose task 1 to install node.js and enter version/arch or task 1 to launch Node.js shell if it's already installed.
+* Choose task 1 to install node.js and enter version/arch or task 2 to launch Node.js shell if it's already installed.
 
 ## Note
 
