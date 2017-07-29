@@ -1,12 +1,8 @@
 hash: 6467d76185591ac25ff68194c87d946446ea575c8ac6dfa3bbda9eee1a802d93
-updated: 2017-07-27T23:47:43.4328337+02:00
+updated: 2017-07-29T14:19:35.8506283+02:00
 imports:
 - name: github.com/cavaliercoder/grab
   version: d1925b94149d7e79adaba26ea2553172c38f8ad7
-- name: github.com/crazy-max/WindowsSpyBlocker
-  version: 9431f89ee808dd4d084b4257727aca6c4e5f7421
-  subpackages:
-  - app/utils/print
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/mattn/go-colorable
@@ -24,4 +20,6 @@ imports:
   repo: https://go.googlesource.com/sys
   subpackages:
   - unix
+  - windows
+  - windows/registry
 testImports: []
