@@ -78,7 +78,7 @@ func GetDistURL(version string, arch string) (string, string, error) {
 	if util.URLValid(msiFullURL) {
 		return msiFullURL, filepath.Base(msiFullURL), nil
 	}
-	return "", "", fmt.Errorf("Version %s (%s) does not exist...", version, arch)
+	return "", "", fmt.Errorf("Version %s (%s) does not exist", version, arch)
 }
 
 // ExtractDist extracts the node.js distribution binary msi or zip file in the extract folder

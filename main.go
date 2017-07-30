@@ -119,7 +119,7 @@ func install(args ...string) error {
 	// check dist
 	fmt.Println()
 	util.Print(fmt.Sprintf("Checking Node.js version '%s'... ", nodejsVersion))
-	distUrl, distFilename, err := nodejs.GetDistURL(nodejsVersion, nodejsArch)
+	distURL, distFilename, err := nodejs.GetDistURL(nodejsVersion, nodejsArch)
 	if err != nil {
 		util.PrintError(err)
 		return nil
@@ -127,9 +127,9 @@ func install(args ...string) error {
 	util.PrintOk()
 
 	// download dist
-	util.Print(fmt.Sprintf("Downloading %s...", distUrl))
+	util.Print(fmt.Sprintf("Downloading %s...", distURL))
 	distPath := fs.Join(pathu.TmpPath, distFilename)
-	if err := util.DownloadFile(pathu.TmpPath, distUrl); err != nil {
+	if err := util.DownloadFile(pathu.TmpPath, distURL); err != nil {
 		fmt.Print(" ")
 		util.PrintError(err)
 		return nil
