@@ -118,23 +118,6 @@ func PrintOk() {
 	color.New(color.FgGreen).Print("OK!\n")
 }
 
-// GetLaunchScriptContent is executed while launching shell
-func GetLaunchScriptContent(nodejsPath string) string {
-	tpl := `@ECHO OFF
-SETLOCAL EnableDelayedExpansion
-
-SET nodejsPath=@CURRENT_PATH@
-SET nodejsWork=%nodejsPath%\work
-SET npmPath=%nodejsPath%\node_modules\npm
-SET npmGlobalConfigFilePath=%npmPath%\npmrc
-
-SET PATH=%nodejsPath%;%PATH%
-cd "%nodejsWork%"
-"%nodejsPath%\nodevars.bat"
-"%nodejsPath%\npm.cmd" config set globalconfig "%npmGlobalConfigFilePath%" --global`
-	return strings.Replace(tpl, "@CURRENT_PATH@", fs.FormatWinPath(fs.RemoveUnc(nodejsPath)), -1)
-}
-
 // DownloadLib download an external library
 func DownloadLib(lib app.Lib) error {
 	if lib.OutputPath != "" {
@@ -178,4 +161,28 @@ func QuitFatal(err error) {
 	reader := bufio.NewReader(os.Stdin)
 	reader.ReadString('\n')
 	os.Exit(1)
+}
+
+// GetUrlStatus makes a GET request to a given URL and checks whether or not the
+// resulting status code is 200.
+func UrlValid(url string) bool {
+	resp, err := http.Get(url)
+	if (err == nil) && (resp.StatusCode == 200) {
+		return true
+	}
+	return false
+}
+
+// CreateFile creates / overwrites a file with content
+func CreateFile(path string, content string) error {
+	file, err := fs.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = file.WriteString(content)
+	if err = file.Sync(); err != nil {
+		return err
+	}
+	return nil
 }

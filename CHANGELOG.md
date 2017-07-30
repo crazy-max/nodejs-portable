@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 (2017/07/30)
+
+* Download zip format if exists
+* Create Node.js configuration in `etc` folder
+* Add cache path in root folder
+* Bug while writing npmrc configuration
+
 ## 2.0.0 (2017/07/27)
 
 * BIG rewrite in Golang! (Issue #22)
