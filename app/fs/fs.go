@@ -57,6 +57,7 @@ func UncPath(s string) string {
 	return s
 }
 
+// RemoveUnc removes UNC from path
 func RemoveUnc(s string) string {
 	return strings.TrimLeft(s, `\\?\`)
 }

@@ -49,10 +49,10 @@ func DownloadFile(filename string, url string) error {
 
 // GetLatestVersion returns the latest version from github
 func GetLatestVersion() (string, error) {
-	probeUrl := "https://raw.githubusercontent.com/crazy-max/nodejs-portable/master/res/latest"
+	probeURL := "https://raw.githubusercontent.com/crazy-max/nodejs-portable/master/res/latest"
 
 	client := &http.Client{Timeout: 2 * time.Second}
-	response, err := client.Get(probeUrl)
+	response, err := client.Get(probeURL)
 	if err != nil {
 		return "", err
 	}
@@ -126,8 +126,8 @@ func DownloadLib(lib app.Lib) error {
 			return err
 		}
 		if _, err := fs.Stat(lib.Exe); err != nil {
-			Print(fmt.Sprintf("Downloading %s...", lib.Url))
-			if err := DownloadFile(lib.Dest, lib.Url); err != nil {
+			Print(fmt.Sprintf("Downloading %s...", lib.URL))
+			if err := DownloadFile(lib.Dest, lib.URL); err != nil {
 				fmt.Print(" ")
 				PrintError(err)
 				return err
@@ -163,9 +163,9 @@ func QuitFatal(err error) {
 	os.Exit(1)
 }
 
-// GetUrlStatus makes a GET request to a given URL and checks whether or not the
+// URLValid makes a GET request to a given URL and checks whether or not the
 // resulting status code is 200.
-func UrlValid(url string) bool {
+func URLValid(url string) bool {
 	resp, err := http.Get(url)
 	if (err == nil) && (resp.StatusCode == 200) {
 		return true

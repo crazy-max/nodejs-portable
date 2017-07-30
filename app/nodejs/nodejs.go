@@ -19,9 +19,9 @@ import (
 )
 
 const (
-	DIST_JSON = "https://nodejs.org/dist/index.json"
-	ZIP_URL   = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
-	MSI_URL   = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
+	distJson = "https://nodejs.org/dist/index.json"
+	zipURL   = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
+	msiURL   = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
 )
 
 var (
@@ -38,7 +38,7 @@ type Versions []Version
 
 func init() {
 	libLessmsi = app.Lib{
-		Url:        "https://github.com/activescott/lessmsi/releases/download/v1.6.1/lessmsi-v1.6.1.zip",
+		URL:        "https://github.com/activescott/lessmsi/releases/download/v1.6.1/lessmsi-v1.6.1.zip",
 		Dest:       fs.RemoveUnc(fs.Join(pathu.LibsPath, "lessmsi.zip")),
 		OutputPath: fs.RemoveUnc(fs.Join(pathu.LibsPath, "lessmsi")),
 		Exe:        fs.RemoveUnc(fs.Join(pathu.LibsPath, "lessmsi", "lessmsi.exe")),
@@ -48,7 +48,7 @@ func init() {
 // GetLatestVersion returns the latest version of Node.js
 func GetLatestVersion() (string, error) {
 	client := &http.Client{Timeout: 2 * time.Second}
-	response, err := client.Get(DIST_JSON)
+	response, err := client.Get(distJson)
 	if err != nil {
 		return "", err
 	}
@@ -68,15 +68,15 @@ func GetLatestVersion() (string, error) {
 	return "", fmt.Errorf("Status code %d", response.StatusCode)
 }
 
-// GetDistUrl returns the node.js distribution binary url
-func GetDistUrl(version string, arch string) (string, string, error) {
-	zipUrl := fmt.Sprintf(ZIP_URL, version, version, arch)
-	msiUrl := fmt.Sprintf(MSI_URL, version, version, arch)
-	if util.UrlValid(zipUrl) {
-		return zipUrl, filepath.Base(zipUrl), nil
+// GetDistURL returns the node.js distribution binary url
+func GetDistURL(version string, arch string) (string, string, error) {
+	zipFullURL := fmt.Sprintf(zipURL, version, version, arch)
+	msiFullURL := fmt.Sprintf(msiURL, version, version, arch)
+	if util.URLValid(zipFullURL) {
+		return zipFullURL, filepath.Base(zipFullURL), nil
 	}
-	if util.UrlValid(msiUrl) {
-		return msiUrl, filepath.Base(msiUrl), nil
+	if util.URLValid(msiFullURL) {
+		return msiFullURL, filepath.Base(msiFullURL), nil
 	}
 	return "", "", fmt.Errorf("Version %s (%s) does not exist...", version, arch)
 }
