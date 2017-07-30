@@ -20,10 +20,6 @@ Tested on Windows 7, Windows 8.1 and Windows 10.
 ![](res/screenshot-20170729.png)
 > Main window of Node.js Portable
 
-## Requirements
-
-* An Internet connection (for installation while downloading Node.js).
-
 ## Installation
 
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
