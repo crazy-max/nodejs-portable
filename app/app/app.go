@@ -6,6 +6,7 @@ import (
 	"github.com/crazy-max/nodejs-portable/app/fs"
 )
 
+// App infos
 const (
 	ID      = "nodejs-portable"
 	NAME    = "Node.js Portable"
@@ -16,7 +17,7 @@ const (
 
 // Lib structure
 type Lib struct {
-	Url        string `json:"url"`
+	URL        string
 	Dest       string
 	OutputPath string
 	Exe        string
