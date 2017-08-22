@@ -92,7 +92,7 @@ func install(args ...string) error {
 		return nil
 	}
 
-	// Clean tmp folder
+	// create tmp folder
 	fs.CreateSubfolder(pathu.TmpPath)
 
 	// seek latest node.js version
@@ -177,6 +177,9 @@ func shell(args ...string) error {
 		return nil
 	}
 	util.PrintOk()
+
+	// create tmp folder
+	fs.CreateSubfolder(pathu.TmpPath)
 
 	// create config
 	util.Print("Creating Node.js configuration... ")
