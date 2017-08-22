@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.1 (2017/08/22)
+
+* Add NODE_PATH to the shell (Issue #29)
+* Tmp folder not created while launching shell (Issue #28)
+
 ## 2.1.0 (2017/07/30)
 
 * Download zip format if exists
