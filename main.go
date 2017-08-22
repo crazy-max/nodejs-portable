@@ -224,6 +224,13 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
+	// set NODE_PATH
+	util.Print("Settings NODE_PATH... ")
+	if err := os.Setenv("NODE_PATH", fs.FormatWinPath(path.Join(pathu.CurrentPath, "node_modules"))); err != nil {
+		util.PrintError(err)
+	}
+	util.PrintOk()
+
 	// clear screen
 	util.Println("Clearing screen...")
 	clear := exec.Command("cmd", "/c", "cls")
