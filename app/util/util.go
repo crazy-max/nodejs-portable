@@ -2,12 +2,17 @@ package util
 
 import (
 	"bufio"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 	"time"
+
+	"golang.org/x/sys/windows/registry"
 
 	"github.com/cavaliercoder/grab"
 	"github.com/crazy-max/nodejs-portable/app/app"
@@ -78,10 +83,10 @@ func ReadLine(prompt string) string {
 }
 
 // Pretty print of struct or slice
-/*func PrintPretty(v interface{}) {
+func PrintPretty(v interface{}) {
 	b, _ := json.MarshalIndent(v, "", "  ")
 	fmt.Println(string(b))
-}*/
+}
 
 // Print print info
 func Print(str string) {
@@ -93,12 +98,6 @@ func Print(str string) {
 func Println(str string) {
 	log.Info(str)
 	fmt.Println(str)
-}
-
-// Printf print info
-func Printf(str string, args ...interface{}) {
-	log.Infof(str, args)
-	fmt.Printf(str, args)
 }
 
 // PrintError print error in red color
@@ -185,4 +184,39 @@ func CreateFile(path string, content string) error {
 		return err
 	}
 	return nil
+}
+
+func GetGitPath() (string, error) {
+	gitPath := ""
+	if _, err := os.Stat(app.Conf.GitPath); err == nil {
+		gitPath = app.Conf.GitPath
+	} else {
+		key, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1`, registry.QUERY_VALUE)
+		if err == nil {
+			defer key.Close()
+			gitRegPath, _, err := key.GetStringValue("InstallLocation")
+			if err == nil {
+				gitPath = gitRegPath
+			}
+		}
+	}
+	if gitPath != "" {
+		if _, err := os.Stat(path.Join(gitPath, "cmd", "git.exe")); err != nil {
+			return "", errors.New("git.exe not found in " + path.Join(gitPath, "cmd"))
+		}
+	}
+	return gitPath, nil
+}
+
+func GetPythonPath() (string, error) {
+	pythonPath := ""
+	if _, err := os.Stat(app.Conf.PythonPath); err == nil {
+		pythonPath = app.Conf.PythonPath
+	}
+	if pythonPath != "" {
+		if _, err := os.Stat(path.Join(pythonPath, "python.exe")); err != nil {
+			return "", errors.New("python.exe not found in " + pythonPath)
+		}
+	}
+	return strings.TrimRight(fs.FormatWinPath(pythonPath), `\`), nil
 }

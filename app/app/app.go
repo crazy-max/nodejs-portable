@@ -1,9 +1,17 @@
 package app
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
 	"strings"
 
+	"github.com/crazy-max/WindowsSpyBlocker/app/utils/print"
+	"github.com/crazy-max/nodejs-portable/app/bindata"
 	"github.com/crazy-max/nodejs-portable/app/fs"
+	"github.com/crazy-max/nodejs-portable/app/pathu"
 )
 
 // App infos
@@ -15,12 +23,83 @@ const (
 	URL     = "https://" + PACKAGE
 )
 
+// Config
+var (
+	Conf ConfStruct
+)
+
+// ConfStruct the conf structure
+type ConfStruct struct {
+	Version    string `json:"version"`
+	GitPath    string `json:"gitPath"`
+	PythonPath string `json:"pythonPath"`
+}
+
 // Lib structure
 type Lib struct {
 	URL        string
 	Dest       string
 	OutputPath string
 	Exe        string
+}
+
+func init() {
+	var err error
+	var oldConf ConfStruct
+
+	cfgPath := path.Join(pathu.CurrentPath, "nodejs-portable.conf")
+
+	// Load default config
+	defaultConf, err := bindata.Asset("nodejs-portable.conf")
+	if err != nil {
+		err = fmt.Errorf("Cannot load asset nodejs-portable.conf: %s", err.Error())
+		print.QuitFatal(err)
+	}
+	err = json.Unmarshal(defaultConf, &Conf)
+	if err != nil {
+		err = fmt.Errorf("Cannot unmarshall defaultConf: %s", err.Error())
+		print.QuitFatal(err)
+	}
+
+	// Create conf if not exists
+	if _, err := os.Stat(cfgPath); err != nil {
+		err = ioutil.WriteFile(cfgPath, defaultConf, 0644)
+		if err != nil {
+			err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+			print.QuitFatal(err)
+		}
+	}
+
+	// Load current config
+	raw, err := ioutil.ReadFile(cfgPath)
+	if err != nil {
+		err = fmt.Errorf("Cannot read %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		print.QuitFatal(err)
+	}
+	err = json.Unmarshal(raw, &oldConf)
+	if err != nil {
+		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		print.QuitFatal(err)
+	}
+
+	// Merge config
+	err = json.Unmarshal(raw, &Conf)
+	if err != nil {
+		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		print.QuitFatal(err)
+	}
+
+	// Write config
+	cfgJson, _ := json.MarshalIndent(Conf, "", "  ")
+	if err != nil {
+		err = fmt.Errorf("Cannot marshal config: %s", err.Error())
+		print.QuitFatal(err)
+	}
+	err = ioutil.WriteFile(cfgPath, cfgJson, 0644)
+	if err != nil {
+		err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		print.QuitFatal(err)
+	}
 }
 
 // GetLaunchScriptContent is executed while launching shell
