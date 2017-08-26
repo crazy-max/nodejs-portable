@@ -58,8 +58,8 @@ Then,
 If you don't want to use Java/Ant to build the project, run :
 
 ```
-set GOARCH=i386
-go get -u Masterminds/glide
+set GOARCH=386
+go get -u github.com/Masterminds/glide
 glide install -v
 go generate -v
 go build -v -ldflags "-s -w"
