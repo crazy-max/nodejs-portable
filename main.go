@@ -1,3 +1,5 @@
+//go:generate go get -v github.com/jteeuwen/go-bindata/go-bindata/...
+//go:generate go-bindata -pkg bindata -o app/bindata/bindata.go nodejs-portable.conf
 //go:generate go get -v github.com/josephspurrier/goversioninfo/...
 //go:generate goversioninfo -icon=res/app.ico
 package main
@@ -18,7 +20,6 @@ import (
 	"github.com/fatih/color"
 	version "github.com/mcuadros/go-version"
 	"github.com/op/go-logging"
-	"golang.org/x/sys/windows/registry"
 )
 
 // logger
@@ -199,33 +200,47 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
-	// seek Git path
-	util.Print("Seeking Git path... ")
-	gitPath := ""
-	key, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1`, registry.QUERY_VALUE)
-	if err == nil {
-		defer key.Close()
-		gitPath, _, err = key.GetStringValue("InstallLocation")
-		if err == nil {
-			log.Info("Git installation found:", gitPath)
-			os.Setenv("PATH", fmt.Sprintf("%s;%s", fs.FormatWinPath(gitPath+"cmd"), os.Getenv("PATH")))
-			util.PrintOk()
-		} else {
-			util.PrintError(err)
-		}
-	} else {
+	// Seeking git path
+	gitPath, err := util.GetGitPath()
+	if err != nil {
 		util.PrintError(err)
+	} else {
+		util.PrintOk()
+	}
+
+	// adding git to PATH if found
+	if gitPath != "" {
+		util.Println("Git found: " + gitPath)
+		util.Print("Adding Git to PATH... ")
+		os.Setenv("PATH", fmt.Sprintf("%s;%s", gitPath+`\cmd`, os.Getenv("PATH")))
+		util.PrintOk()
+	}
+
+	// Seeking python path
+	pythonPath, err := util.GetPythonPath()
+	if err != nil {
+		util.PrintError(err)
+	} else {
+		util.PrintOk()
+	}
+
+	// adding python to PATH if found
+	if pythonPath != "" {
+		util.Println("Python found: " + gitPath)
+		util.Print("Adding Python to PATH... ")
+		os.Setenv("PATH", fmt.Sprintf("%s;%s", pythonPath, os.Getenv("PATH")))
+		util.PrintOk()
 	}
 
 	// add node to path
 	util.Print("Adding node to path... ")
-	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
+	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s;%s", fs.FormatWinPath(pathu.CurrentPath+`\node_modules\npm`), pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
 		util.PrintError(err)
 	}
 	util.PrintOk()
 
 	// set NODE_PATH
-	util.Print("Settings NODE_PATH... ")
+	util.Print("Setting NODE_PATH... ")
 	if err := os.Setenv("NODE_PATH", fs.FormatWinPath(path.Join(pathu.CurrentPath, "node_modules"))); err != nil {
 		util.PrintError(err)
 	}
