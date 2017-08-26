@@ -3,28 +3,26 @@ package util
 import (
 	"bufio"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"path"
 	"strings"
 	"time"
 
-	"golang.org/x/sys/windows/registry"
-
 	"github.com/cavaliercoder/grab"
-	"github.com/crazy-max/nodejs-portable/app/app"
 	"github.com/crazy-max/nodejs-portable/app/fs"
+	"github.com/crazy-max/nodejs-portable/app/log"
 	"github.com/fatih/color"
-	"github.com/op/go-logging"
 )
 
-// logger
-var (
-	log = logging.MustGetLogger(app.ID)
-)
+// Lib structure
+type Lib struct {
+	URL        string
+	Dest       string
+	OutputPath string
+	Exe        string
+}
 
 // DownloadFile downloads a file and display status
 func DownloadFile(filename string, url string) error {
@@ -118,7 +116,7 @@ func PrintOk() {
 }
 
 // DownloadLib download an external library
-func DownloadLib(lib app.Lib) error {
+func DownloadLib(lib Lib) error {
 	if lib.OutputPath != "" {
 		if err := fs.CreateSubfolder(lib.OutputPath); err != nil {
 			PrintError(err)
@@ -154,7 +152,7 @@ func DownloadLib(lib app.Lib) error {
 
 // QuitFatal quit the app and wait for user input
 func QuitFatal(err error) {
-	log.Fatal(err)
+	log.Error(err)
 	color.New(color.FgHiRed, color.Bold).Printf("\nFatal: %s\n", err.Error())
 	fmt.Print("Press Enter to exit...")
 	reader := bufio.NewReader(os.Stdin)
@@ -184,39 +182,4 @@ func CreateFile(path string, content string) error {
 		return err
 	}
 	return nil
-}
-
-func GetGitPath() (string, error) {
-	gitPath := ""
-	if _, err := os.Stat(app.Conf.GitPath); err == nil {
-		gitPath = app.Conf.GitPath
-	} else {
-		key, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1`, registry.QUERY_VALUE)
-		if err == nil {
-			defer key.Close()
-			gitRegPath, _, err := key.GetStringValue("InstallLocation")
-			if err == nil {
-				gitPath = gitRegPath
-			}
-		}
-	}
-	if gitPath != "" {
-		if _, err := os.Stat(path.Join(gitPath, "cmd", "git.exe")); err != nil {
-			return "", errors.New("git.exe not found in " + path.Join(gitPath, "cmd"))
-		}
-	}
-	return gitPath, nil
-}
-
-func GetPythonPath() (string, error) {
-	pythonPath := ""
-	if _, err := os.Stat(app.Conf.PythonPath); err == nil {
-		pythonPath = app.Conf.PythonPath
-	}
-	if pythonPath != "" {
-		if _, err := os.Stat(path.Join(pythonPath, "python.exe")); err != nil {
-			return "", errors.New("python.exe not found in " + pythonPath)
-		}
-	}
-	return strings.TrimRight(fs.FormatWinPath(pythonPath), `\`), nil
 }

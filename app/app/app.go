@@ -35,14 +35,6 @@ type ConfStruct struct {
 	PythonPath string `json:"pythonPath"`
 }
 
-// Lib structure
-type Lib struct {
-	URL        string
-	Dest       string
-	OutputPath string
-	Exe        string
-}
-
 func init() {
 	var err error
 	var oldConf ConfStruct
