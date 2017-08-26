@@ -12,7 +12,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/crazy-max/nodejs-portable/app/app"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/pathu"
 	"github.com/crazy-max/nodejs-portable/app/util"
@@ -25,7 +24,7 @@ const (
 )
 
 var (
-	libLessmsi app.Lib
+	libLessmsi util.Lib
 )
 
 // Version structure
@@ -37,7 +36,7 @@ type Version struct {
 type Versions []Version
 
 func init() {
-	libLessmsi = app.Lib{
+	libLessmsi = util.Lib{
 		URL:        "https://github.com/activescott/lessmsi/releases/download/v1.6.1/lessmsi-v1.6.1.zip",
 		Dest:       fs.RemoveUnc(fs.Join(pathu.LibsPath, "lessmsi.zip")),
 		OutputPath: fs.RemoveUnc(fs.Join(pathu.LibsPath, "lessmsi")),

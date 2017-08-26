@@ -11,6 +11,9 @@ import (
 	"path"
 	"syscall"
 
+	"errors"
+	"strings"
+
 	"github.com/crazy-max/nodejs-portable/app/app"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/menu"
@@ -20,6 +23,7 @@ import (
 	"github.com/fatih/color"
 	version "github.com/mcuadros/go-version"
 	"github.com/op/go-logging"
+	"golang.org/x/sys/windows/registry"
 )
 
 // logger
@@ -201,7 +205,7 @@ func shell(args ...string) error {
 	util.PrintOk()
 
 	// Seeking git path
-	gitPath, err := util.GetGitPath()
+	gitPath, err := getGitPath()
 	if err != nil {
 		util.PrintError(err)
 	} else {
@@ -217,7 +221,7 @@ func shell(args ...string) error {
 	}
 
 	// Seeking python path
-	pythonPath, err := util.GetPythonPath()
+	pythonPath, err := getPythonPath()
 	if err != nil {
 		util.PrintError(err)
 	} else {
@@ -277,4 +281,39 @@ func shell(args ...string) error {
 	}
 
 	return nil
+}
+
+func getGitPath() (string, error) {
+	gitPath := ""
+	if _, err := os.Stat(app.Conf.GitPath); err == nil {
+		gitPath = app.Conf.GitPath
+	} else {
+		key, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1`, registry.QUERY_VALUE)
+		if err == nil {
+			defer key.Close()
+			gitRegPath, _, err := key.GetStringValue("InstallLocation")
+			if err == nil {
+				gitPath = gitRegPath
+			}
+		}
+	}
+	if gitPath != "" {
+		if _, err := os.Stat(path.Join(gitPath, "cmd", "git.exe")); err != nil {
+			return "", errors.New("git.exe not found in " + path.Join(gitPath, "cmd"))
+		}
+	}
+	return gitPath, nil
+}
+
+func getPythonPath() (string, error) {
+	pythonPath := ""
+	if _, err := os.Stat(app.Conf.PythonPath); err == nil {
+		pythonPath = app.Conf.PythonPath
+	}
+	if pythonPath != "" {
+		if _, err := os.Stat(path.Join(pythonPath, "python.exe")); err != nil {
+			return "", errors.New("python.exe not found in " + pythonPath)
+		}
+	}
+	return strings.TrimRight(fs.FormatWinPath(pythonPath), `\`), nil
 }
