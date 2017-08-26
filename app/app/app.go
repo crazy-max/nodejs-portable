@@ -8,10 +8,10 @@ import (
 	"path"
 	"strings"
 
-	"github.com/crazy-max/WindowsSpyBlocker/app/utils/print"
 	"github.com/crazy-max/nodejs-portable/app/bindata"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/pathu"
+	"github.com/crazy-max/nodejs-portable/app/util"
 )
 
 // App infos
@@ -53,12 +53,12 @@ func init() {
 	defaultConf, err := bindata.Asset("nodejs-portable.conf")
 	if err != nil {
 		err = fmt.Errorf("Cannot load asset nodejs-portable.conf: %s", err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 	err = json.Unmarshal(defaultConf, &Conf)
 	if err != nil {
 		err = fmt.Errorf("Cannot unmarshall defaultConf: %s", err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 
 	// Create conf if not exists
@@ -66,7 +66,7 @@ func init() {
 		err = ioutil.WriteFile(cfgPath, defaultConf, 0644)
 		if err != nil {
 			err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
-			print.QuitFatal(err)
+			util.QuitFatal(err)
 		}
 	}
 
@@ -74,31 +74,31 @@ func init() {
 	raw, err := ioutil.ReadFile(cfgPath)
 	if err != nil {
 		err = fmt.Errorf("Cannot read %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 	err = json.Unmarshal(raw, &oldConf)
 	if err != nil {
 		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 
 	// Merge config
 	err = json.Unmarshal(raw, &Conf)
 	if err != nil {
 		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 
 	// Write config
 	cfgJson, _ := json.MarshalIndent(Conf, "", "  ")
 	if err != nil {
 		err = fmt.Errorf("Cannot marshal config: %s", err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 	err = ioutil.WriteFile(cfgPath, cfgJson, 0644)
 	if err != nil {
 		err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
-		print.QuitFatal(err)
+		util.QuitFatal(err)
 	}
 }
 
