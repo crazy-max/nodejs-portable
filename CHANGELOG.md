@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2 (2017/08/26)
+
+* Upgrade to Go 1.9
+* Add Building instructions (Issue #29) 
+* Add config file to customize Git and Python path (Issues #10 #29) 
+
 ## 2.1.1 (2017/08/22)
 
 * Add NODE_PATH to the shell (Issue #29)
