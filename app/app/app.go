@@ -18,7 +18,7 @@ import (
 const (
 	ID      = "nodejs-portable"
 	NAME    = "Node.js Portable"
-	VERSION = "2.1.1"
+	VERSION = "2.1.2"
 	PACKAGE = "github.com/crazy-max/nodejs-portable"
 	URL     = "https://" + PACKAGE
 )
