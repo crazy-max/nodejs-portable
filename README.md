@@ -17,19 +17,53 @@
 A single EXE written in [Go](https://golang.org/) to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
 Tested on Windows 7, Windows 8.1 and Windows 10.
 
-![](res/screenshot-20170729.png)
+![](res/screenshots/main-20170729.png)
 > Main window of Node.js Portable
+
+Configuration file `nodejs-portable.conf` is generated at first launch :
+
+![](res/screenshots/files-20170826.png)
 
 ## Installation
 
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
 * Put `nodejs-portable.exe` in the same directory as `node.exe` or in an empty directory for a new installation.
+
+## Getting started
+
 * Run `nodejs-portable.exe`.
 * Choose task 1 to install node.js and enter version/arch or task 2 to launch Node.js shell if it's already installed.
 
-## Note
+You can also edit the configuration file `nodejs-portable.conf` :
 
-If you have already installed Node.js, just copy the folder where you want and launch `nodejs-portable.exe`.
+* `gitPath` : Set the path to Git (where is cmd/git.exe)
+* `pythonPath` : Set the path to Python (where is python.exe)
+
+> If you have already installed Node.js, just copy the folder where you want and launch `nodejs-portable.exe` inside.
+
+## Building
+
+* Install [Go](https://golang.org/dl/) 1.8+
+* Add Go to your PATH (ex. `C:\Go\bin`)
+* Install the [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
+* Add Java to your PATH (ex. `C:\Program Files (x86)\Java\jdk1.8.0_144\bin`)
+* Install [Apache Ant](http://ant.apache.org/bindownload.cgi) 1.9+
+* Add Ant to your PATH (ex. `C:\apache-ant\bin`)
+
+Then,
+
+* Clone this repository to `$GOPATH/src/github.com/crazy-max/nodejs-portable`
+* Run `ant release`. The artefact will be available in `bin\release`
+
+If you don't want to use Java/Ant to build the project, run :
+
+```
+set GOARCH=i386
+go get -u Masterminds/glide
+glide install -v
+go generate -v
+go build -v -ldflags "-s -w"
+```
 
 ## How can i help ?
 
