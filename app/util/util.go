@@ -88,26 +88,38 @@ func PrintPretty(v interface{}) {
 
 // Print print info
 func Print(str string) {
-	log.Info(str)
+	log.Logger.Info(str)
 	fmt.Print(str)
 }
 
 // Println print info
 func Println(str string) {
-	log.Info(str)
+	log.Logger.Info(str)
 	fmt.Println(str)
 }
 
 // PrintError print error in red color
 func PrintError(err error) {
-	log.Error(err)
+	log.Logger.Error(err)
 	color.New(color.FgRed).Printf("Error: %s\n", err.Error())
 }
 
 // PrintErrorStr printed in red color
 func PrintErrorStr(str string) {
-	log.Error(str)
+	log.Logger.Error(str)
 	color.New(color.FgRed).Printf("Error: %s\n", str)
+}
+
+// PrintWarning print warning in yellow color
+func PrintWarning(err error) {
+	log.Logger.Warning(err)
+	color.New(color.FgYellow).Printf("Warning: %s\n", err.Error())
+}
+
+// PrintWarningStr printed in yellow color
+func PrintWarningStr(str string) {
+	log.Logger.Error(str)
+	color.New(color.FgYellow).Printf("Warning: %s\n", str)
 }
 
 // PrintOk printed in green color
@@ -152,7 +164,7 @@ func DownloadLib(lib Lib) error {
 
 // QuitFatal quit the app and wait for user input
 func QuitFatal(err error) {
-	log.Error(err)
+	log.Logger.Error(err)
 	color.New(color.FgHiRed, color.Bold).Printf("\nFatal: %s\n", err.Error())
 	fmt.Print("Press Enter to exit...")
 	reader := bufio.NewReader(os.Stdin)

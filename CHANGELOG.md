@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 (2017/08/29)
+
+* Resolve absolute paths in `customPaths` (Issue #30)
+* Merge `gitPath` and `pythonPath` in `customPaths` (Issue #30)
+* Remove `node_modules/npm` from PATH (Issue #30)
+
 ## 2.1.2 (2017/08/26)
 
 * Upgrade to Go 1.9
