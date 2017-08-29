@@ -238,7 +238,7 @@ func shell(args ...string) error {
 
 	// add node to path
 	util.Print("Adding node to path... ")
-	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s;%s", fs.FormatWinPath(pathu.CurrentPath+`\node_modules\npm`), pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
+	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
 		util.PrintError(err)
 	}
 	util.PrintOk()
