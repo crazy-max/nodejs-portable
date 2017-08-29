@@ -6,9 +6,7 @@
 * Merge `gitPath` and `pythonPath` in `customPaths` (Issue #30)
 * Remove `node_modules/npm` from PATH (Issue #30)
 
-#### 💡 UPGRADE NOTE
-
-* `gitPath` and `pythonPath` have been removed from the config file and must be moved to `customPaths`
+> 💡 UPGRADE NOTE : `gitPath` and `pythonPath` have been removed from the config file and must be moved to `customPaths`
 
 ## 2.1.2 (2017/08/26)
 
