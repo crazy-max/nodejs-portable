@@ -5,51 +5,33 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"path"
-	"syscall"
-
-	"errors"
+	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/crazy-max/nodejs-portable/app/app"
 	"github.com/crazy-max/nodejs-portable/app/fs"
+	"github.com/crazy-max/nodejs-portable/app/log"
 	"github.com/crazy-max/nodejs-portable/app/menu"
 	"github.com/crazy-max/nodejs-portable/app/nodejs"
 	"github.com/crazy-max/nodejs-portable/app/pathu"
 	"github.com/crazy-max/nodejs-portable/app/util"
 	"github.com/fatih/color"
 	version "github.com/mcuadros/go-version"
-	"github.com/op/go-logging"
-	"golang.org/x/sys/windows/registry"
-)
-
-// logger
-var (
-	log       = logging.MustGetLogger(app.ID)
-	logFormat = logging.MustStringFormatter(`%{time:2006-01-02 15:04:05} %{level:.4s} - %{message}`)
 )
 
 func init() {
 	// set window title
 	exec.Command("cmd", "/c", fmt.Sprintf("title %s %s", app.NAME, app.VERSION)).Run()
 
-	// log file
-	pathu.CurrentPath = fs.FormatWinPath(pathu.CurrentPath)
-	logfile, err := fs.OpenFile(fs.Join(pathu.CurrentPath, app.ID+".log"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	if err != nil {
-		log.Error("Log file:", err)
-	}
-
-	// init logger
-	logBackendFile := logging.NewBackendFormatter(logging.NewLogBackend(logfile, "", 0), logFormat)
-	logging.SetBackend(logBackendFile)
-
-	log.Info("--------")
-	log.Infof("Starting %s %s...", app.NAME, app.VERSION)
-	log.Info("Current path:", pathu.CurrentPath)
+	log.Logger.Info("--------")
+	log.Logger.Info(fmt.Sprintf("Starting %s %s...", app.NAME, app.VERSION))
+	log.Logger.Info("Current path:", pathu.CurrentPath)
 }
 
 func main() {
@@ -59,10 +41,10 @@ func main() {
 	// check for update
 	latestVersion, err := util.GetLatestVersion()
 	if err != nil {
-		log.Error("Cannot contact the update server:", err.Error())
-		color.New(color.FgRed).Printf("\n%s can't contact the update server: %s\n", app.NAME, err.Error())
+		log.Logger.Error("Cannot contact the update server:", err.Error())
+		color.New(color.FgYellow).Printf("\n%s can't contact the update server: %s\n", app.NAME, err.Error())
 	} else if version.Compare(app.VERSION, latestVersion, "<") {
-		log.Info("New release available:", latestVersion)
+		log.Logger.Info("New release available:", latestVersion)
 		color.New(color.FgHiGreen).Print("\nA new release is available : ")
 		color.New(color.FgHiGreen, color.Bold).Print(latestVersion)
 		color.New(color.FgHiGreen).Print("\nDownload : ")
@@ -88,7 +70,7 @@ func main() {
 }
 
 func install(args ...string) error {
-	log.Info(">> INSTALL")
+	log.Logger.Info(">> INSTALL")
 	fmt.Println()
 
 	// check if already installed
@@ -112,18 +94,18 @@ func install(args ...string) error {
 	if nodejsVersion == "" {
 		nodejsVersion = latestNodejs
 	}
-	log.Info("nodejsVersion:", nodejsVersion)
+	log.Logger.Info("nodejsVersion:", nodejsVersion)
 
 	// input arch
 	nodejsArch := util.ReadLine("  Architecture (default x86): ")
 	if nodejsArch == "" {
 		nodejsArch = "x86"
 	}
-	log.Info("nodejsArch:", nodejsArch)
+	log.Logger.Info("nodejsArch:", nodejsArch)
 
 	// check dist
 	fmt.Println()
-	util.Print(fmt.Sprintf("Checking Node.js version '%s'... ", nodejsVersion))
+	util.Print(fmt.Sprintf("Checking Node.js version %s... ", nodejsVersion))
 	distURL, distFilename, err := nodejs.GetDistURL(nodejsVersion, nodejsArch)
 	if err != nil {
 		util.PrintError(err)
@@ -172,7 +154,7 @@ func install(args ...string) error {
 }
 
 func shell(args ...string) error {
-	log.Info(">> SHELL")
+	log.Logger.Info(">> SHELL")
 	fmt.Println()
 
 	// check if installed
@@ -194,50 +176,35 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
-	// create launch script
-	util.Print("Creating launch script... ")
-	launchScript := fs.Join(pathu.TmpPath, "launch.bat")
-	err := util.CreateFile(launchScript, app.GetLaunchScriptContent(pathu.CurrentPath))
-	if err != nil {
-		util.PrintError(err)
-		return nil
+	// check custom paths
+	customPaths := ""
+	util.Println("Checking custom paths...")
+	for _, customPath := range app.Conf.CustomPaths {
+		if customPath == "" {
+			continue
+		}
+		tmpCustomPath, _ := filepath.Abs(customPath)
+		util.Print(fmt.Sprintf("# %s ", tmpCustomPath))
+		if _, err := os.Stat(tmpCustomPath); err == nil {
+			if customPaths != "" {
+				customPaths = customPaths + ";"
+			}
+			customPaths = customPaths + strings.TrimRight(fs.FormatWinPath(tmpCustomPath), `\`)
+			util.PrintOk()
+		} else {
+			util.PrintWarningStr("Not found...")
+		}
 	}
-	util.PrintOk()
 
-	// Seeking git path
-	gitPath, err := getGitPath()
-	if err != nil {
-		util.PrintError(err)
-	} else {
+	// add custom paths
+	if customPaths != "" {
+		util.Print("Adding customs path to PATH... ")
+		os.Setenv("PATH", fmt.Sprintf("%s;%s", customPaths, os.Getenv("PATH")))
 		util.PrintOk()
 	}
 
-	// adding git to PATH if found
-	if gitPath != "" {
-		util.Println("Git found: " + gitPath)
-		util.Print("Adding Git to PATH... ")
-		os.Setenv("PATH", fmt.Sprintf("%s;%s", gitPath+`\cmd`, os.Getenv("PATH")))
-		util.PrintOk()
-	}
-
-	// Seeking python path
-	pythonPath, err := getPythonPath()
-	if err != nil {
-		util.PrintError(err)
-	} else {
-		util.PrintOk()
-	}
-
-	// adding python to PATH if found
-	if pythonPath != "" {
-		util.Println("Python found: " + gitPath)
-		util.Print("Adding Python to PATH... ")
-		os.Setenv("PATH", fmt.Sprintf("%s;%s", pythonPath, os.Getenv("PATH")))
-		util.PrintOk()
-	}
-
-	// add node to path
-	util.Print("Adding node to path... ")
+	// add Node to path
+	util.Print("Adding node to PATH... ")
 	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
 		util.PrintError(err)
 	}
@@ -249,6 +216,20 @@ func shell(args ...string) error {
 		util.PrintError(err)
 	}
 	util.PrintOk()
+
+	// create launch script
+	util.Print("Creating launch script... ")
+	launchScript := fs.Join(pathu.TmpPath, "launch.bat")
+	if err := util.CreateFile(launchScript, app.GetLaunchScriptContent(pathu.CurrentPath)); err != nil {
+		util.PrintError(err)
+		return nil
+	}
+	util.PrintOk()
+
+	// wait user input to open the shell
+	fmt.Print("\nPress Enter to open the shell...")
+	reader := bufio.NewReader(os.Stdin)
+	reader.ReadString('\n')
 
 	// clear screen
 	util.Println("Clearing screen...")
@@ -267,7 +248,7 @@ func shell(args ...string) error {
 	}
 
 	// start up a new shell.
-	log.Info("Starting up the shell... ")
+	log.Logger.Info("Starting up the shell... ")
 	proc, err := os.StartProcess(os.Getenv("COMSPEC"), []string{}, &pa)
 	if err != nil {
 		util.PrintError(err)
@@ -281,39 +262,4 @@ func shell(args ...string) error {
 	}
 
 	return nil
-}
-
-func getGitPath() (string, error) {
-	gitPath := ""
-	if _, err := os.Stat(app.Conf.GitPath); err == nil {
-		gitPath = app.Conf.GitPath
-	} else {
-		key, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1`, registry.QUERY_VALUE)
-		if err == nil {
-			defer key.Close()
-			gitRegPath, _, err := key.GetStringValue("InstallLocation")
-			if err == nil {
-				gitPath = gitRegPath
-			}
-		}
-	}
-	if gitPath != "" {
-		if _, err := os.Stat(path.Join(gitPath, "cmd", "git.exe")); err != nil {
-			return "", errors.New("git.exe not found in " + path.Join(gitPath, "cmd"))
-		}
-	}
-	return gitPath, nil
-}
-
-func getPythonPath() (string, error) {
-	pythonPath := ""
-	if _, err := os.Stat(app.Conf.PythonPath); err == nil {
-		pythonPath = app.Conf.PythonPath
-	}
-	if pythonPath != "" {
-		if _, err := os.Stat(path.Join(pythonPath, "python.exe")); err != nil {
-			return "", errors.New("python.exe not found in " + pythonPath)
-		}
-	}
-	return strings.TrimRight(fs.FormatWinPath(pythonPath), `\`), nil
 }

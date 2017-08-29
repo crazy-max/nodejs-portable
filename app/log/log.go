@@ -1,20 +1,28 @@
 package log
 
 import (
-	"github.com/op/go-logging"
+	"os"
+
+	"github.com/crazy-max/nodejs-portable/app/fs"
+	"github.com/crazy-max/nodejs-portable/app/pathu"
+	logging "github.com/op/go-logging"
 )
 
 // Logger
 var (
-	log = logging.MustGetLogger("nodejs-portable")
+	Logger    = logging.MustGetLogger("nodejs-portable")
+	logFormat = logging.MustStringFormatter(`%{time:2006-01-02 15:04:05} %{level:.4s} - %{message}`)
 )
 
-// Error logs a message using ERROR as log level.
-func Error(args ...interface{}) {
-	log.Error(args)
-}
+func init() {
+	// log file
+	pathu.CurrentPath = fs.FormatWinPath(pathu.CurrentPath)
+	logfile, err := fs.OpenFile(fs.Join(pathu.CurrentPath, "nodejs-portable.log"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		Logger.Error("Log file:", err)
+	}
 
-// Info logs a message using INFO as log level.
-func Info(args ...interface{}) {
-	log.Info(args)
+	// init logger
+	logBackendFile := logging.NewBackendFormatter(logging.NewLogBackend(logfile, "", 0), logFormat)
+	logging.SetBackend(logBackendFile)
 }

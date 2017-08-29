@@ -18,7 +18,7 @@ import (
 const (
 	ID      = "nodejs-portable"
 	NAME    = "Node.js Portable"
-	VERSION = "2.1.2"
+	VERSION = "2.2.0"
 	PACKAGE = "github.com/crazy-max/nodejs-portable"
 	URL     = "https://" + PACKAGE
 )
@@ -30,9 +30,8 @@ var (
 
 // ConfStruct the conf structure
 type ConfStruct struct {
-	Version    string `json:"version"`
-	GitPath    string `json:"gitPath"`
-	PythonPath string `json:"pythonPath"`
+	Version     string   `json:"version"`
+	CustomPaths []string `json:"customPaths"`
 }
 
 func init() {

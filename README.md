@@ -31,15 +31,17 @@ Configuration file `nodejs-portable.conf` is generated at first launch :
 
 ## Getting started
 
-* Run `nodejs-portable.exe`.
-* Choose task 1 to install node.js and enter version/arch or task 2 to launch Node.js shell if it's already installed.
-
-You can also edit the configuration file `nodejs-portable.conf` :
-
-* `gitPath` : Set the path to Git (where is cmd/git.exe)
-* `pythonPath` : Set the path to Python (where is python.exe)
+Run `nodejs-portable.exe`, then choose task :
+* **1** to install node.js by entering version and architecture.
+* **2** to launch Node.js shell.
 
 > If you have already installed Node.js, just copy the folder where you want and launch `nodejs-portable.exe` inside.
+
+### Config file `nodejs-portable.conf`
+
+* `customPaths` : Array of custom paths that will be placed in the PATH environment variable.
+
+> All paths can be a relative path from `nodejs-portable.exe`.
 
 ## Building
 
