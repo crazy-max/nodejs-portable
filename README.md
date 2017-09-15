@@ -17,7 +17,7 @@
 A single EXE written in [Go](https://golang.org/) to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
 Tested on Windows 7, Windows 8.1 and Windows 10.
 
-![](res/screenshots/main-20170729.png)
+![](res/screenshots/main-20170915.gif)
 > Main window of Node.js Portable
 
 Configuration file `nodejs-portable.conf` is generated at first launch :
