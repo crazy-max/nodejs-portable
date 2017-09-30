@@ -18,7 +18,7 @@ import (
 const (
 	ID      = "nodejs-portable"
 	NAME    = "Node.js Portable"
-	VERSION = "2.2.0"
+	VERSION = "2.2.1"
 	PACKAGE = "github.com/crazy-max/nodejs-portable"
 	URL     = "https://" + PACKAGE
 )
@@ -81,12 +81,12 @@ func init() {
 	}
 
 	// Write config
-	cfgJson, _ := json.MarshalIndent(Conf, "", "  ")
+	cfgJSON, _ := json.MarshalIndent(Conf, "", "  ")
 	if err != nil {
 		err = fmt.Errorf("Cannot marshal config: %s", err.Error())
 		util.QuitFatal(err)
 	}
-	err = ioutil.WriteFile(cfgPath, cfgJson, 0644)
+	err = ioutil.WriteFile(cfgPath, cfgJSON, 0644)
 	if err != nil {
 		err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)

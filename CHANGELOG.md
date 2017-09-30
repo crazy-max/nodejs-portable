@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.1 (2017/09/30)
+
+* Improve coding quality
+* TODO: Translated README into Chinese
+* TODO: Add DirectMode (Issue #27)
+
 ## 2.2.0 (2017/08/29)
 
 * Resolve absolute paths in `customPaths` (Issue #30)
