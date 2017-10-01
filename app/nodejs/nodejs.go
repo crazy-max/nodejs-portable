@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	distJson = "https://nodejs.org/dist/index.json"
+	distJSON = "https://nodejs.org/dist/index.json"
 	zipURL   = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
 	msiURL   = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
 )
@@ -47,7 +47,7 @@ func init() {
 // GetLatestVersion returns the latest version of Node.js
 func GetLatestVersion() (string, error) {
 	client := &http.Client{Timeout: 2 * time.Second}
-	response, err := client.Get(distJson)
+	response, err := client.Get(distJSON)
 	if err != nil {
 		return "", err
 	}

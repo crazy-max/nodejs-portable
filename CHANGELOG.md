@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.2.1 (2017/09/31)
+
+* Improve coding quality
+* Add `ImmediateMode` (Issue #27)
+* Translated `README` into Chinese
+
+> Does `Version` in config file mean the version it was created?
+> Maybe we can use it to mention the user to have a look at new configs.
+
+*Known BUG: Error when you put the program into a path that contains Chinese character.*
+
 ## 2.2.0 (2017/08/29)
 
 * Resolve absolute paths in `customPaths` (Issue #30)
