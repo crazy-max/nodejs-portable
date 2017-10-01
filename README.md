@@ -54,7 +54,7 @@ Run `nodejs-portable.exe`, then choose task :
 
 * Install [Go](https://golang.org/dl/) 1.8+
 * Add Go to your PATH (ex. `C:\Go\bin`)
-* Install the [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
+* Install [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
 * Add Java to your PATH (ex. `C:\Program Files (x86)\Java\jdk1.8.0_144\bin`)
 * Install [Apache Ant](http://ant.apache.org/bindownload.cgi) 1.9+
 * Add Ant to your PATH (ex. `C:\apache-ant\bin`)
