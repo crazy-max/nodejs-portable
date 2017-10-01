@@ -12,6 +12,8 @@
   <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
 </p>
 
+阅读此文档其他语言版本： [English](README.md), [简体中文](README.zh-cn.md).
+
 ## 关于
 
 这是一个用 [Go 语言](https://golang.org/) 写的小程序，可以便携化(绿化) Windows 系统上的 [Node.js](http://nodejs.org/) 开发环境<br />
