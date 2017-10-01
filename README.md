@@ -12,6 +12,8 @@
   <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
 </p>
 
+[Chinese 中文](README_CN.md)
+
 ## About
 
 A single EXE written in [Go](https://golang.org/) to make [Node.js](http://nodejs.org/) portable on Windows systems.<br />
@@ -39,9 +41,14 @@ Run `nodejs-portable.exe`, then choose task :
 
 ### Config file `nodejs-portable.conf`
 
-* `customPaths` : Array of custom paths that will be placed in the PATH environment variable.
+* `customPaths` :  Array of custom paths that will be placed in the PATH environment variable.
 
 > All paths can be a relative path from `nodejs-portable.exe`.
+
+* `immediatemode`:  An option you can change into `true` to skip some process, and use node.js immediately.
+
+> When exception happened, you can look into `nodejs-portable.log` for further information.
+
 
 ## Building
 

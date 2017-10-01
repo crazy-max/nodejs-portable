@@ -30,8 +30,9 @@ var (
 
 // ConfStruct the conf structure
 type ConfStruct struct {
-	Version     string   `json:"version"`
-	CustomPaths []string `json:"customPaths"`
+	Version   	  	string   `json:"version"`
+	ImmediateMode 	bool `json:"immediatemode"`
+	CustomPaths 	[]string `json:"customPaths"`
 }
 
 func init() {
@@ -59,6 +60,7 @@ func init() {
 			err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 			util.QuitFatal(err)
 		}
+		util.Print("Created a new config file. Have a look, please.\n")
 	}
 
 	// Load current config
