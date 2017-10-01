@@ -45,7 +45,7 @@ Run `nodejs-portable.exe`, then choose task :
 
 > All paths can be a relative path from `nodejs-portable.exe`.
 
-* `immediatemode`:  An option you can change into `true` to skip some process, and use node.js immediately.
+* `immediateMode`:  An option you can change into `true` to skip some process, and use node.js immediately.
 
 > When exception happened, you can look into `nodejs-portable.log` for further information.
 
