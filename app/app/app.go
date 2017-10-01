@@ -31,7 +31,7 @@ var (
 // ConfStruct the conf structure
 type ConfStruct struct {
 	Version   	  	string   `json:"version"`
-	ImmediateMode 	bool `json:"immediatemode"`
+	ImmediateMode 	bool `json:"immediateMode"`
 	CustomPaths 	[]string `json:"customPaths"`
 }
 
