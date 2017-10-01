@@ -4,7 +4,7 @@
 
 * Improve coding quality
 * Add `ImmediateMode` (Issue #27)
-* TODO: Translated `README` into Chinese
+* Translated `README` into Chinese
 
 > Does `Version` in config file mean the version it was created?
 > Maybe we can use it to mention the user to have a look at new configs.
