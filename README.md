@@ -12,7 +12,7 @@
   <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
 </p>
 
-[Chinese 中文](README_CN.md)
+Read this in other languages: [English](README.md), [简体中文](README.zh-cn.md).
 
 ## About
 
