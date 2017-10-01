@@ -51,22 +51,24 @@ func main() {
 		color.New(color.FgHiGreen, color.Bold).Print(app.URL + "/releases/latest\n")
 	}
 
-	// build menu
-	menuCommands := []menu.CommandOption{
-		{
-			Description: "Install",
-			Function:    install,
-		},
-		{
-			Description: "Shell",
-			Function:    shell,
-		},
+	if(app.Conf.ImmediateMode == false){
+		// build menu
+		menuCommands := []menu.CommandOption{
+			{
+				Description: "Install",
+				Function:    install,
+			},
+			{
+				Description: "Shell",
+				Function:    shell,
+			},
+		}
+		menuOptions := menu.NewOptions("Menu", "'menu' for help> ", 0, "")
+		menuN := menu.NewMenu(menuCommands, menuOptions)
+		menuN.Start()
+	}else{
+		shell();
 	}
-
-	menuOptions := menu.NewOptions("Menu", "'menu' for help> ", 0, "")
-
-	menuN := menu.NewMenu(menuCommands, menuOptions)
-	menuN.Start()
 }
 
 func install(args ...string) error {
@@ -226,10 +228,12 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
-	// wait user input to open the shell
-	fmt.Print("\nPress Enter to open the shell...")
-	reader := bufio.NewReader(os.Stdin)
-	reader.ReadString('\n')
+	if(app.Conf.ImmediateMode == false){
+		// wait user input to open the shell
+		fmt.Print("\nPress Enter to open the shell...")
+		reader := bufio.NewReader(os.Stdin)
+		reader.ReadString('\n')
+	}
 
 	// clear screen
 	util.Println("Clearing screen...")
