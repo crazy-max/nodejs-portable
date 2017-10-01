@@ -80,7 +80,7 @@ func ReadLine(prompt string) string {
 	return strings.TrimSpace(input)
 }
 
-// Pretty print of struct or slice
+// PrintPretty Pretty print of struct or slice
 func PrintPretty(v interface{}) {
 	b, _ := json.MarshalIndent(v, "", "  ")
 	fmt.Println(string(b))

@@ -85,7 +85,7 @@ func (m *Menu) menu() {
 		color.New(color.FgYellow).Printf("%s", m.Commands[i].Description)
 		fmt.Println()
 
-		idCmd += 1
+		idCmd++
 	}
 
 	fmt.Println()
@@ -130,10 +130,10 @@ Loop:
 			m.menu()
 			break
 		default:
-			if currentIdCmd, err := strconv.Atoi(cmd[0]); err == nil {
+			if currentIDCmd, err := strconv.Atoi(cmd[0]); err == nil {
 				idCmd := 1
 				for i := range m.Commands {
-					if idCmd == currentIdCmd {
+					if idCmd == currentIDCmd {
 						err := m.Commands[i].Function(cmd[1:]...)
 						fmt.Println()
 						if err != nil {

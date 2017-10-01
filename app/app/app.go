@@ -18,7 +18,7 @@ import (
 const (
 	ID      = "nodejs-portable"
 	NAME    = "Node.js Portable"
-	VERSION = "2.2.0"
+	VERSION = "2.2.1"
 	PACKAGE = "github.com/crazy-max/nodejs-portable"
 	URL     = "https://" + PACKAGE
 )
@@ -30,8 +30,9 @@ var (
 
 // ConfStruct the conf structure
 type ConfStruct struct {
-	Version     string   `json:"version"`
-	CustomPaths []string `json:"customPaths"`
+	Version   	  	string   `json:"version"`
+	ImmediateMode 	bool `json:"immediateMode"`
+	CustomPaths 	[]string `json:"customPaths"`
 }
 
 func init() {
@@ -59,6 +60,7 @@ func init() {
 			err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 			util.QuitFatal(err)
 		}
+		util.Print("Created a new config file. Have a look, please.\n")
 	}
 
 	// Load current config
@@ -81,12 +83,12 @@ func init() {
 	}
 
 	// Write config
-	cfgJson, _ := json.MarshalIndent(Conf, "", "  ")
+	cfgJSON, _ := json.MarshalIndent(Conf, "", "  ")
 	if err != nil {
 		err = fmt.Errorf("Cannot marshal config: %s", err.Error())
 		util.QuitFatal(err)
 	}
-	err = ioutil.WriteFile(cfgPath, cfgJson, 0644)
+	err = ioutil.WriteFile(cfgPath, cfgJSON, 0644)
 	if err != nil {
 		err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
