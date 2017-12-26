@@ -43,11 +43,11 @@
 
 ###  `nodejs-portable.conf` 配置文件
 
-* `customPaths` :  一组会加入`PATH` 环境变量的路径
-* `immediateMode`:  当你将其切换为 `true` ，你将会跳过菜单、环境信息，直接进入配置好的开发环境。
+* `workPath` : Shell working dir (can be relative to `nodejs-portable.exe`).
+* `customPaths` : Array of custom paths that will be placed in the PATH environment variable (paths can be relative to `nodejs-portable.exe`).
+* `immediateMode`: Set this to `true` if you want to use node.js shell immediately.
 
-> 所有路径都可以是关于 `nodejs-portable.exe` 的相对路径。
-> 当发生异常，你可以检查 `nodejs-portable.log` 来获取更多信息。
+> If an exception happened, take a look into `nodejs-portable.log` for further information.
 
 ## 构建
 

@@ -118,7 +118,7 @@ func PrintWarning(err error) {
 
 // PrintWarningStr printed in yellow color
 func PrintWarningStr(str string) {
-	log.Logger.Error(str)
+	log.Logger.Warning(str)
 	color.New(color.FgYellow).Printf("Warning: %s\n", str)
 }
 
@@ -130,7 +130,7 @@ func PrintOk() {
 // DownloadLib download an external library
 func DownloadLib(lib Lib) error {
 	if lib.OutputPath != "" {
-		if err := fs.CreateSubfolder(lib.OutputPath); err != nil {
+		if err := os.MkdirAll(lib.OutputPath, 777); err != nil {
 			PrintError(err)
 			return err
 		}
