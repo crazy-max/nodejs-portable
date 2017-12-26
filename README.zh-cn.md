@@ -28,10 +28,9 @@
 ## 安装
 
 * 下载 [最新的发布](https://github.com/crazy-max/nodejs-portable/releases/latest) 。
+* Put `nodejs-portable.exe` in a new empty folder.
 
-* 将 `nodejs-portable.exe` 放入与 `node.exe` 相同的路径中，或者干脆放进一个空目录来执行自动安装。
-
-  > 非常不推荐将 `nodejs-portable.exe` 放入带中文的路径中，可能会报各种诡异的错误Orz
+> 非常不推荐将 `nodejs-portable.exe` 放入带中文的路径中，可能会报各种诡异的错误Orz
 
 ## 开始使用
 

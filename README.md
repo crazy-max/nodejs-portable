@@ -28,7 +28,7 @@ Configuration file `nodejs-portable.conf` is generated at first launch :
 ## Installation
 
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
-* Put `nodejs-portable.exe` in the same directory as `node.exe` or in an empty directory for a new installation.
+* Put `nodejs-portable.exe` in a new empty folder.
 
 ## Getting started
 
