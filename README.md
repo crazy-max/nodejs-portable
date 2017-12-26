@@ -40,10 +40,10 @@ Run `nodejs-portable.exe`, then choose task :
 
 ### Config file `nodejs-portable.conf`
 
-* `customPaths` : Array of custom paths that will be placed in the PATH environment variable.
+* `workPath` : Shell working dir (can be relative to `nodejs-portable.exe`).
+* `customPaths` : Array of custom paths that will be placed in the PATH environment variable (paths can be relative to `nodejs-portable.exe`).
 * `immediateMode`: Set this to `true` if you want to use node.js shell immediately.
 
-> All paths can be relative to `nodejs-portable.exe`.
 > If an exception happened, take a look into `nodejs-portable.log` for further information.
 
 ## Building

@@ -132,9 +132,8 @@ func CreateConfig() error {
 	npmPath := fs.Join(nodePath, "node_modules", "npm")
 	npmrcGlobalPath := fs.Join(npmPath, "npmrc")
 
-	fs.CreateSubfolder(nodeCachePath)
-	fs.CreateSubfolder(nodeEtcPath)
-	fs.CreateSubfolder(pathu.WorkPath)
+	os.MkdirAll(nodeCachePath, 777)
+	os.MkdirAll(nodeEtcPath, 777)
 
 	npmrcGlobal := strings.Replace(npmrcGlobalTpl, "@NODE_PATH@", nodePath, -1)
 	err := util.CreateFile(npmrcGlobalPath, npmrcGlobal)

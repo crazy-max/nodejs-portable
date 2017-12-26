@@ -85,7 +85,7 @@ func install(args ...string) error {
 	}
 
 	// create tmp folder
-	fs.CreateSubfolder(pathu.TmpPath)
+	os.MkdirAll(pathu.TmpPath, 777)
 
 	// seek latest node.js version
 	latestNodejs, err := nodejs.GetLatestVersion()
@@ -248,7 +248,7 @@ func shell(args ...string) error {
 	// and also set target directory for the shell to start in.
 	pa := os.ProcAttr{
 		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
-		Dir:   fs.RemoveUnc(pathu.WorkPath),
+		Dir:   fs.RemoveUnc(app.Conf.WorkPath),
 		Sys: &syscall.SysProcAttr{
 			CmdLine: fmt.Sprintf(` /k "%s"`, fs.RemoveUnc(launchScript)),
 		},

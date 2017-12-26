@@ -8,6 +8,8 @@ import (
 	"path"
 	"strings"
 
+	"path/filepath"
+
 	"github.com/crazy-max/nodejs-portable/app/bindata"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/pathu"
@@ -32,6 +34,7 @@ var (
 type ConfStruct struct {
 	Version       string   `json:"version"`
 	ImmediateMode bool     `json:"immediateMode"`
+	WorkPath      string   `json:"workPath"`
 	CustomPaths   []string `json:"customPaths"`
 }
 
@@ -93,11 +96,24 @@ func init() {
 		err = fmt.Errorf("cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
 	}
+
+	// Check work path
+	newWorkPath, err := filepath.Abs(Conf.WorkPath)
+	if err != nil {
+		err = fmt.Errorf("cannot get absolute path of work path '%s': %s", Conf.WorkPath, err.Error())
+		util.QuitFatal(err)
+	} else {
+		Conf.WorkPath = newWorkPath
+		if err := os.MkdirAll(Conf.WorkPath, 777); err != nil {
+			err = fmt.Errorf("cannot create work path folder in '%s': %s", Conf.WorkPath, err.Error())
+			util.QuitFatal(err)
+		}
+	}
 }
 
 // GetLaunchScriptContent is executed while launching shell
 func GetLaunchScriptContent() string {
-	workPath := fs.FormatWinPath(fs.RemoveUnc(pathu.WorkPath))
+	workPath := fs.FormatWinPath(fs.RemoveUnc(Conf.WorkPath))
 	nodePath := fs.FormatWinPath(fs.RemoveUnc(pathu.AppPath))
 
 	launchScriptTpl := `@ECHO OFF
