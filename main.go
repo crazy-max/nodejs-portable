@@ -26,8 +26,7 @@ import (
 )
 
 func init() {
-	// set window title
-	exec.Command("cmd", "/c", fmt.Sprintf("title %s %s", app.Name, app.Version)).Run()
+	util.SetConsoleTitle(fmt.Sprintf("%s %s", app.Name, app.Version))
 
 	log.Logger.Info("--------")
 	log.Logger.Info(fmt.Sprintf("Starting %s %s...", app.Name, app.Version))
