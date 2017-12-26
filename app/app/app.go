@@ -96,18 +96,25 @@ func init() {
 }
 
 // GetLaunchScriptContent is executed while launching shell
-func GetLaunchScriptContent(nodejsPath string) string {
-	return strings.Replace(`@ECHO OFF
+func GetLaunchScriptContent() string {
+	workPath := fs.FormatWinPath(fs.RemoveUnc(pathu.WorkPath))
+	nodePath := fs.FormatWinPath(fs.RemoveUnc(pathu.AppPath))
+
+	launchScriptTpl := `@ECHO OFF
 SETLOCAL EnableDelayedExpansion
 
-SET nodejsPath=@CURRENT_PATH@
-SET nodejsWork=%nodejsPath%\work
+SET nodejsPath=@NODEJS_PATH@
+SET nodejsWork=@WORK_PATH@
 SET npmPath=%nodejsPath%\node_modules\npm
 SET npmGlobalConfigFilePath=%npmPath%\npmrc
 
 SET PATH=%nodejsPath%;%PATH%
 cd "%nodejsWork%"
 "%nodejsPath%\nodevars.bat"
-"%nodejsPath%\npm.cmd" config set globalconfig "%npmGlobalConfigFilePath%" --global`,
-		"@CURRENT_PATH@", fs.FormatWinPath(fs.RemoveUnc(nodejsPath)), -1)
+"%nodejsPath%\npm.cmd" config set globalconfig "%npmGlobalConfigFilePath%" --global`
+
+	launchScript := strings.Replace(launchScriptTpl, "@WORK_PATH@", workPath, -1)
+	launchScript = strings.Replace(launchScript, "@NODEJS_PATH@", nodePath, -1)
+
+	return launchScript
 }

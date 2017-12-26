@@ -79,7 +79,7 @@ func install(args ...string) error {
 	fmt.Println()
 
 	// check if already installed
-	if _, err := fs.Stat(fs.Join(pathu.CurrentPath, "node.exe")); err == nil {
+	if _, err := fs.Stat(fs.Join(pathu.AppPath, "node.exe")); err == nil {
 		util.PrintErrorStr("Node.js is already installed...")
 		return nil
 	}
@@ -140,7 +140,7 @@ func install(args ...string) error {
 
 	// move nodejs folder
 	util.Print("Moving nodejs folder... ")
-	err = fs.CopyDir(extractPath, pathu.CurrentPath)
+	err = fs.CopyDir(extractPath, pathu.AppPath)
 	if err != nil {
 		util.PrintError(err)
 		return nil
@@ -164,7 +164,7 @@ func shell(args ...string) error {
 
 	// check if installed
 	util.Print("Checking if Node.js installed... ")
-	if _, err := fs.Stat(path.Join(pathu.CurrentPath, "node.exe")); err != nil {
+	if _, err := fs.Stat(path.Join(pathu.AppPath, "node.exe")); err != nil {
 		util.PrintErrorStr("Not installed...")
 		return nil
 	}
@@ -210,14 +210,14 @@ func shell(args ...string) error {
 
 	// add Node to path
 	util.Print("Adding node to PATH... ")
-	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", pathu.CurrentPath, os.Getenv("PATH"))); err != nil {
+	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", fs.RemoveUnc(pathu.AppPath), os.Getenv("PATH"))); err != nil {
 		util.PrintError(err)
 	}
 	util.PrintOk()
 
 	// set NODE_PATH
 	util.Print("Setting NODE_PATH... ")
-	if err := os.Setenv("NODE_PATH", fs.FormatWinPath(path.Join(pathu.CurrentPath, "node_modules"))); err != nil {
+	if err := os.Setenv("NODE_PATH", fs.RemoveUnc(fs.FormatWinPath(path.Join(pathu.AppPath, "node_modules")))); err != nil {
 		util.PrintError(err)
 	}
 	util.PrintOk()
@@ -225,7 +225,7 @@ func shell(args ...string) error {
 	// create launch script
 	util.Print("Creating launch script... ")
 	launchScript := fs.Join(pathu.TmpPath, "launch.bat")
-	if err := util.CreateFile(launchScript, app.GetLaunchScriptContent(pathu.CurrentPath)); err != nil {
+	if err := util.CreateFile(launchScript, app.GetLaunchScriptContent()); err != nil {
 		util.PrintError(err)
 		return nil
 	}
