@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.0 (2017/12/27)
+
+* Add ability to set a custom work path (Issue #35)
+* Move Node.js installation to `app` subfolder
+* Remove UNC path while setting PATH and NODE_PATH
+* Use SetConsoleTitle instead of exec cmd
+* Switch to [Golang Dep](https://github.com/golang/dep) as dependency manager
+
+> 💡 UPGRADE NOTE : Move everything in a new folder named `app` except `cache`, `work` and `nodejs-portable.*`.
+
 ## 2.2.1 (2017/10/01)
 
 * Improve coding quality
