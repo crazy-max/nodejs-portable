@@ -15,12 +15,12 @@ import (
 )
 
 // App infos
-const (
-	ID      = "nodejs-portable"
-	NAME    = "Node.js Portable"
-	VERSION = "2.2.1"
-	PACKAGE = "github.com/crazy-max/nodejs-portable"
-	URL     = "https://" + PACKAGE
+var (
+	Id      = "nodejs-portable"
+	Name    = "Node.js Portable"
+	Package = "github.com/crazy-max/nodejs-portable"
+	Url     = "https://" + Package
+	Version = "1.0"
 )
 
 // Config
@@ -30,9 +30,9 @@ var (
 
 // ConfStruct the conf structure
 type ConfStruct struct {
-	Version   	  	string   `json:"version"`
-	ImmediateMode 	bool `json:"immediateMode"`
-	CustomPaths 	[]string `json:"customPaths"`
+	Version       string   `json:"version"`
+	ImmediateMode bool     `json:"immediateMode"`
+	CustomPaths   []string `json:"customPaths"`
 }
 
 func init() {
@@ -44,12 +44,12 @@ func init() {
 	// Load default config
 	defaultConf, err := bindata.Asset("nodejs-portable.conf")
 	if err != nil {
-		err = fmt.Errorf("Cannot load asset nodejs-portable.conf: %s", err.Error())
+		err = fmt.Errorf("cannot load asset nodejs-portable.conf: %s", err.Error())
 		util.QuitFatal(err)
 	}
 	err = json.Unmarshal(defaultConf, &Conf)
 	if err != nil {
-		err = fmt.Errorf("Cannot unmarshall defaultConf: %s", err.Error())
+		err = fmt.Errorf("cannot unmarshall defaultConf: %s", err.Error())
 		util.QuitFatal(err)
 	}
 
@@ -57,40 +57,40 @@ func init() {
 	if _, err := os.Stat(cfgPath); err != nil {
 		err = ioutil.WriteFile(cfgPath, defaultConf, 0644)
 		if err != nil {
-			err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+			err = fmt.Errorf("cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 			util.QuitFatal(err)
 		}
-		util.Print("Created a new config file. Have a look, please.\n")
 	}
 
 	// Load current config
 	raw, err := ioutil.ReadFile(cfgPath)
 	if err != nil {
-		err = fmt.Errorf("Cannot read %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		err = fmt.Errorf("cannot read %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
 	}
 	err = json.Unmarshal(raw, &oldConf)
 	if err != nil {
-		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		err = fmt.Errorf("cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
 	}
 
-	// Merge config
+	// Merge config and force version
+	oldConf.Version = Conf.Version
 	err = json.Unmarshal(raw, &Conf)
 	if err != nil {
-		err = fmt.Errorf("Cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		err = fmt.Errorf("cannot unmarshall %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
 	}
 
 	// Write config
 	cfgJSON, _ := json.MarshalIndent(Conf, "", "  ")
 	if err != nil {
-		err = fmt.Errorf("Cannot marshal config: %s", err.Error())
+		err = fmt.Errorf("cannot marshal config: %s", err.Error())
 		util.QuitFatal(err)
 	}
 	err = ioutil.WriteFile(cfgPath, cfgJSON, 0644)
 	if err != nil {
-		err = fmt.Errorf("Cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
+		err = fmt.Errorf("cannot write file %s: %s", strings.TrimLeft(cfgPath, pathu.CurrentPath), err.Error())
 		util.QuitFatal(err)
 	}
 }

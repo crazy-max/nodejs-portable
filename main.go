@@ -27,48 +27,51 @@ import (
 
 func init() {
 	// set window title
-	exec.Command("cmd", "/c", fmt.Sprintf("title %s %s", app.NAME, app.VERSION)).Run()
+	exec.Command("cmd", "/c", fmt.Sprintf("title %s %s", app.Name, app.Version)).Run()
 
 	log.Logger.Info("--------")
-	log.Logger.Info(fmt.Sprintf("Starting %s %s...", app.NAME, app.VERSION))
+	log.Logger.Info(fmt.Sprintf("Starting %s %s...", app.Name, app.Version))
 	log.Logger.Info("Current path:", pathu.CurrentPath)
 }
 
 func main() {
-	color.New(color.FgHiWhite).Println(app.NAME + " " + app.VERSION)
-	color.New(color.FgHiWhite).Println(app.URL)
+	color.New(color.FgHiWhite).Println(app.Name + " " + app.Version)
+	color.New(color.FgHiWhite).Println(app.Url)
 
 	// check for update
 	latestVersion, err := util.GetLatestVersion()
 	if err != nil {
 		log.Logger.Error("Cannot contact the update server:", err.Error())
-		color.New(color.FgYellow).Printf("\n%s can't contact the update server: %s\n", app.NAME, err.Error())
-	} else if version.Compare(app.VERSION, latestVersion, "<") {
+		color.New(color.FgYellow).Printf("\n%s can't contact the update server: %s\n", app.Name, err.Error())
+	} else if version.Compare(app.Version, latestVersion, "<") {
 		log.Logger.Info("New release available:", latestVersion)
 		color.New(color.FgHiGreen).Print("\nA new release is available : ")
 		color.New(color.FgHiGreen, color.Bold).Print(latestVersion)
 		color.New(color.FgHiGreen).Print("\nDownload : ")
-		color.New(color.FgHiGreen, color.Bold).Print(app.URL + "/releases/latest\n")
+		color.New(color.FgHiGreen, color.Bold).Print(app.Url + "/releases/latest\n")
 	}
 
-	if(app.Conf.ImmediateMode == false){
-		// build menu
-		menuCommands := []menu.CommandOption{
-			{
-				Description: "Install",
-				Function:    install,
-			},
-			{
-				Description: "Shell",
-				Function:    shell,
-			},
-		}
-		menuOptions := menu.NewOptions("Menu", "'menu' for help> ", 0, "")
-		menuN := menu.NewMenu(menuCommands, menuOptions)
-		menuN.Start()
-	}else{
-		shell();
+	// open shell on immediate mode
+	if app.Conf.ImmediateMode == true {
+		shell()
+		return
 	}
+
+	// build menu
+	menuCommands := []menu.CommandOption{
+		{
+			Description: "Install",
+			Function:    install,
+		},
+		{
+			Description: "Shell",
+			Function:    shell,
+		},
+	}
+
+	menuOptions := menu.NewOptions("Menu", "'menu' for help> ", 0, "")
+	menuN := menu.NewMenu(menuCommands, menuOptions)
+	menuN.Start()
 }
 
 func install(args ...string) error {
@@ -228,7 +231,7 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
-	if(app.Conf.ImmediateMode == false){
+	if app.Conf.ImmediateMode == false {
 		// wait user input to open the shell
 		fmt.Print("\nPress Enter to open the shell...")
 		reader := bufio.NewReader(os.Stdin)

@@ -12,10 +12,14 @@
   <property name="release.path" value="${bin.path}\release"/>
   <property name="lib.path" value="${bin.path}\lib"/>
   <property name="tmp.path" value="${bin.path}\tmp"/>
-  <property name="glide" value="${lib.path}\glide\windows-386\glide.exe"/>
   <property name="rcedit" value="${lib.path}\rcedit\rcedit.exe"/>
+  <property name="ldflags" value="-s -w"/>
 
-  <!-- Functions -->
+  <!-- Build number -->
+  <condition property="app.release" value="${env.APPVEYOR_BUILD_NUMBER}"><isset property="env.APPVEYOR_BUILD_NUMBER"/></condition>
+  <condition property="app.release" value="${app.default.release}"><not><isset property="env.APPVEYOR_BUILD_NUMBER"/></not></condition>
+
+  <!-- Macros -->
   <macrodef name="assertdir">
     <attribute name="dir"/>
     <sequential>
@@ -34,9 +38,12 @@
     </sequential>
   </macrodef>
 
-  <!-- Build number -->
-  <condition property="app.release" value="${env.APPVEYOR_BUILD_NUMBER}"><isset property="env.APPVEYOR_BUILD_NUMBER"/></condition>
-  <condition property="app.release" value="${app.default.release}"><not><isset property="env.APPVEYOR_BUILD_NUMBER"/></not></condition>
+  <macrodef name="ldflags">
+    <attribute name="add"/>
+    <sequential>
+      <var name="ldflags" value="${ldflags} @{add}" />
+    </sequential>
+  </macrodef>
 
   <!-- Filterset -->
   <filterset id="filterset.app">
@@ -56,29 +63,29 @@
   <echo message="APP_COPYRIGHT : ${app.url}"/>
   <echo message="-----------------------------------"/>
 
-  <target name="setup" depends="init, glide, generate" description="Setup workspace"/>
-  <target name="release" depends="init, build" description="Release">
+  <!-- Targets -->
+  <target name="release" depends="init, load.lib, build" description="Release">
     <echo message="Writing version.dat..."/>
     <echo file="${tmp.path}/version.dat" append="false">${app.version}</echo>
   </target>
 
-  <target name="init" depends="load.libs">
+  <target name="init">
     <mkdir dir="${bin.path}"/>
     <mkdir dir="${lib.path}"/>
-    <mkdir dir="${tmp.path}"/>
     <delete dir="${release.path}"/>
+    <mkdir dir="${release.path}"/>
+    <delete dir="${tmp.path}"/>
+    <mkdir dir="${tmp.path}"/>
   </target>
 
-  <target name="load.libs" unless="is.lib.loaded" depends="
-      load.lib.antcontrib,
-      load.lib.glide">
+  <target name="load.lib" unless="is.lib.loaded" depends="load.lib.antcontrib, load.lib.dep">
     <var name="is.lib.loaded" value="true"/>
   </target>
 
   <target name="load.lib.antcontrib" unless="is.lib.loaded">
     <echo message="Load ANT Contrib"/>
-    <mkdir dir="${lib.path}\ant-contrib"/>
-    <get dest="${lib.path}\ant-contrib\ant-contrib.jar" src="${antcontrib.url}" skipexisting="true"/>
+    <mkdir dir="${lib.path}/ant-contrib"/>
+    <get dest="${lib.path}/ant-contrib/ant-contrib.jar" src="${antcontrib.url}" skipexisting="true"/>
     <taskdef resource="net/sf/antcontrib/antlib.xml">
       <classpath>
         <fileset dir="${lib.path}/ant-contrib">
@@ -88,21 +95,17 @@
     </taskdef>
   </target>
 
-  <target name="load.lib.glide" unless="is.lib.loaded">
-    <echo message="Load Glide"/>
-    <get dest="${lib.path}\glide.zip" src="${glide.url}" skipexisting="true"/>
-    <if>
-      <not><available file="${lib.path}\glide" type="dir"/></not>
-      <then>
-        <unzip src="${lib.path}\glide.zip" dest="${lib.path}\glide"/>
-      </then>
-    </if>
-    <assertfile file="${glide}"/>
+  <target name="load.lib.dep" unless="is.lib.loaded">
+    <exec executable="go" failonerror="true" dir="${project.basedir}">
+      <arg value="get"/>
+      <arg value="-v"/>
+      <arg value="${dep.package}"/>
+    </exec>
   </target>
 
-  <target name="glide">
-    <exec executable="${glide}" failonerror="true" dir="${project.basedir}">
-      <arg value="install"/>
+  <target name="dep" description="Install vendor">
+    <exec executable="dep" failonerror="true" dir="${project.basedir}">
+      <arg value="ensure"/>
       <arg value="-v"/>
     </exec>
   </target>
@@ -118,7 +121,14 @@
     </exec>
   </target>
 
-  <target name="build" depends="glide, generate">
+  <target name="build" depends="dep, generate">
+    <var name="ldflags" value="-s -w"/>
+    <ldflags add="-X '${app.package}/app/app.Id=${app.id}'"/>
+    <ldflags add="-X '${app.package}/app/app.Name=${app.name}'"/>
+    <ldflags add="-X '${app.package}/app/app.Package=${app.package}'"/>
+    <ldflags add="-X '${app.package}/app/app.Url=${app.url}'"/>
+    <ldflags add="-X '${app.package}/app/app.Version=${app.version}'"/>
+
     <exec executable="go" failonerror="true" dir="${project.basedir}">
       <env key="GOARCH" value="386"/>
       <arg value="build"/>
@@ -126,7 +136,7 @@
       <arg value="${release.path}\${app.id}.exe"/>
       <arg value="-v"/>
       <arg value="-ldflags"/>
-      <arg value="-s -w"/>
+      <arg value="${ldflags}"/>
     </exec>
     <assertfile file="${release.path}\${app.id}.exe"/>
   </target>
