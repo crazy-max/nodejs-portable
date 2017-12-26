@@ -18,9 +18,15 @@ import (
 )
 
 const (
-	distJSON = "https://nodejs.org/dist/index.json"
-	zipURL   = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
-	msiURL   = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
+	distJSON       = "https://nodejs.org/dist/index.json"
+	zipURL         = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
+	msiURL         = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
+	npmrcGlobalTpl = `prefix = @NODE_PATH@\`
+	npmrcTpl       = `cache = @CURRENT_PATH@\cache
+globalconfig = @NODE_PATH@\etc\npmrc
+globalignorefile = @NODE_PATH@\etc\.npmignore
+init-module = @NODE_PATH@\etc\.npm-init.js
+userconfig = @NODE_PATH@\etc\npmrc`
 )
 
 var (
@@ -117,28 +123,28 @@ func extractMsiDist(distPath string) (string, error) {
 
 // CreateConfig init node.js configuration and folders
 func CreateConfig() error {
-	nodePath := fs.FormatWinPath(fs.RemoveUnc(pathu.CurrentPath))
-	nodeCachePath := fs.Join(pathu.CurrentPath, "cache")
-	nodeEtcPath := fs.Join(pathu.CurrentPath, "etc")
+	currentPath := fs.FormatWinPath(fs.RemoveUnc(pathu.CurrentPath))
+	nodePath := fs.FormatWinPath(fs.RemoveUnc(pathu.AppPath))
+	nodeCachePath := fs.Join(currentPath, "cache")
+	nodeEtcPath := fs.Join(nodePath, "etc")
 	npmrcPath := fs.Join(nodeEtcPath, "npmrc")
 	npmIgnorePath := fs.Join(nodeEtcPath, ".npmignore")
-	npmPath := fs.Join(pathu.CurrentPath, "node_modules", "npm")
+	npmPath := fs.Join(nodePath, "node_modules", "npm")
 	npmrcGlobalPath := fs.Join(npmPath, "npmrc")
 
 	fs.CreateSubfolder(nodeCachePath)
 	fs.CreateSubfolder(nodeEtcPath)
 	fs.CreateSubfolder(pathu.WorkPath)
 
-	err := util.CreateFile(npmrcGlobalPath, strings.Replace(`prefix = @CURRENT_PATH@\`, "@CURRENT_PATH@", nodePath, -1))
+	npmrcGlobal := strings.Replace(npmrcGlobalTpl, "@NODE_PATH@", nodePath, -1)
+	err := util.CreateFile(npmrcGlobalPath, npmrcGlobal)
 	if err != nil {
 		return err
 	}
 
-	err = util.CreateFile(npmrcPath, strings.Replace(`cache = @CURRENT_PATH@\cache
-globalconfig = @CURRENT_PATH@\etc\npmrc
-globalignorefile = @CURRENT_PATH@\etc\.npmignore
-init-module = @CURRENT_PATH@\etc\.npm-init.js
-userconfig = @CURRENT_PATH@\etc\npmrc`, "@CURRENT_PATH@", nodePath, -1))
+	npmrc := strings.Replace(npmrcTpl, "@CURRENT_PATH@", currentPath, -1)
+	npmrc = strings.Replace(npmrc, "@NODE_PATH@", nodePath, -1)
+	err = util.CreateFile(npmrcPath, npmrc)
 	if err != nil {
 		return err
 	}

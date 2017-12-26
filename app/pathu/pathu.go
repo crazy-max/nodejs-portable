@@ -10,6 +10,7 @@ import (
 // Paths
 var (
 	CurrentPath, _ = filepath.Abs(filepath.Dir(os.Args[0]))
+	AppPath        = fs.Join(CurrentPath, "app")
 	WorkPath       = fs.Join(CurrentPath, "work")
 	TmpPath        = fs.Join(os.Getenv("USERPROFILE"), ".nodejs-portable")
 	LibsPath       = fs.Join(TmpPath, "libs")
