@@ -33,7 +33,7 @@ First search for [existing issues](https://github.com/crazy-max/nodejs-portable/
 
 ### Logs
 
-Join the log file `nodejs-portable.log` to this issue.
+Join `nodejs-portable.log` file to this issue.
 ```
 
 ## Closure policy
