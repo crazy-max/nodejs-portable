@@ -23,7 +23,7 @@ Tested on Windows 7, Windows 8.1 and Windows 10.
 
 Configuration file `nodejs-portable.conf` is generated at first launch :
 
-![](res/screenshots/files-20170826.png)
+![](res/screenshots/files-20171227.png)
 
 ## Installation
 
