@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"syscall"
 	"time"
+	"unsafe"
 
 	"github.com/cavaliercoder/grab"
 	"github.com/crazy-max/nodejs-portable/app/fs"
@@ -194,4 +196,29 @@ func CreateFile(path string, content string) error {
 		return err
 	}
 	return nil
+}
+
+// SetConsoleTitle sets windows console title
+func SetConsoleTitle(title string) (int, error) {
+	handle, err := syscall.LoadLibrary("kernel32.dll")
+	if err != nil {
+		PrintError(err)
+		return 0, err
+	}
+	defer syscall.FreeLibrary(handle)
+
+	proc, err := syscall.GetProcAddress(handle, "SetConsoleTitleW")
+	if err != nil {
+		PrintError(err)
+		return 0, err
+	}
+
+	rTitle, err := syscall.UTF16PtrFromString(title)
+	if err != nil {
+		PrintError(err)
+		return 0, err
+	}
+
+	r, _, err := syscall.Syscall(proc, 1, uintptr(unsafe.Pointer(rTitle)), 0, 0)
+	return int(r), err
 }
