@@ -23,7 +23,7 @@
 
 配置文件 `nodejs-portable.conf` 会在初次启动时被创造：
 
-![](res/screenshots/files-20170826.png)
+![](res/screenshots/files-20171227.png)
 
 ## 安装
 
