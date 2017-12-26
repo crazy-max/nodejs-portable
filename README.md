@@ -9,7 +9,6 @@
   <a href="https://goreportcard.com/report/github.com/crazy-max/nodejs-portable"><img src="https://goreportcard.com/badge/github.com/crazy-max/nodejs-portable?style=flat-square" alt="Go Report"></a>
   <a href="https://www.codacy.com/app/crazy-max/nodejs-portable"><img src="https://img.shields.io/codacy/grade/03ea4cd8c645497aba77b5e462b5118c.svg?style=flat-square" alt="Code Quality"></a>
   <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU"><img src="https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square" alt="Donate Paypal"></a>
-  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
 </p>
 
 Read this in other languages: [English](README.md), [简体中文](README.zh-cn.md).
@@ -41,14 +40,11 @@ Run `nodejs-portable.exe`, then choose task :
 
 ### Config file `nodejs-portable.conf`
 
-* `customPaths` :  Array of custom paths that will be placed in the PATH environment variable.
+* `customPaths` : Array of custom paths that will be placed in the PATH environment variable.
+* `immediateMode`: Set this to `true` if you want to use node.js shell immediately.
 
-> All paths can be a relative path from `nodejs-portable.exe`.
-
-* `immediateMode`:  An option you can change into `true` to skip some process, and use node.js immediately.
-
-> When exception happened, you can look into `nodejs-portable.log` for further information.
-
+> All paths can be relative to `nodejs-portable.exe`.
+> If an exception happened, take a look into `nodejs-portable.log` for further information.
 
 ## Building
 
@@ -80,14 +76,7 @@ We welcome all kinds of contributions :raised_hands:!<br />
 The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
 Any funds donated will be used to help further development on this project! :gift_heart:
 
-<p>
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU">
-    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/paypal.png" alt="Donate Paypal">
-  </a>
-  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable">
-    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/flattr.png" alt="Flattr this!">
-  </a>
-</p>
+[![Donate Paypal](https://raw.githubusercontent.com/crazy-max/nodejs-portable/master/res/paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU)
 
 ## License
 
