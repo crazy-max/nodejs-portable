@@ -8,8 +8,7 @@
   <a href="https://ci.appveyor.com/project/crazy-max/nodejs-portable"><img src="https://img.shields.io/appveyor/ci/crazy-max/nodejs-portable.svg?style=flat-square" alt="AppVeyor"></a>
   <a href="https://goreportcard.com/report/github.com/crazy-max/nodejs-portable"><img src="https://goreportcard.com/badge/github.com/crazy-max/nodejs-portable?style=flat-square" alt="Go Report"></a>
   <a href="https://www.codacy.com/app/crazy-max/nodejs-portable"><img src="https://img.shields.io/codacy/grade/03ea4cd8c645497aba77b5e462b5118c.svg?style=flat-square" alt="Code Quality"></a>
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU"><img src="https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square" alt="Donate Paypal"></a>
-  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable"><img src="https://img.shields.io/badge/flattr-this-green.svg?style=flat-square" alt="Flattr this!"></a>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU"><img src="https://img.shields.io/badge/donate-paypal-7057ff.svg?style=flat-square" alt="Donate Paypal"></a>
 </p>
 
 阅读此文档其他语言版本： [English](README.md), [简体中文](README.zh-cn.md).
@@ -45,13 +44,10 @@
 ###  `nodejs-portable.conf` 配置文件
 
 * `customPaths` :  一组会加入`PATH` 环境变量的路径
-
-> 所有路径都可以是关于 `nodejs-portable.exe` 的相对路径。
-
 * `immediateMode`:  当你将其切换为 `true` ，你将会跳过菜单、环境信息，直接进入配置好的开发环境。
 
+> 所有路径都可以是关于 `nodejs-portable.exe` 的相对路径。
 > 当发生异常，你可以检查 `nodejs-portable.log` 来获取更多信息。
-
 
 ## 构建
 
@@ -98,14 +94,7 @@ go build -v -ldflags "-s -w"
 最简单的支持方式就是Star :star2: 这个项目，或者提交 issues :speech_balloon:<br />
 任何提供的捐赠将会被用于该项目进一步的开发 :gift_heart:
 
-<p>
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU">
-    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/paypal.png" alt="Donate Paypal">
-  </a>
-  <a href="https://flattr.com/submit/auto?user_id=crazymax&url=https://github.com/crazy-max/nodejs-portable">
-    <img src="https://github.com/crazy-max/nodejs-portable/blob/master/res/flattr.png" alt="Flattr this!">
-  </a>
-</p>
+[![Donate Paypal](https://raw.githubusercontent.com/crazy-max/nodejs-portable/master/res/paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU)
 
 ## 许可证
 
