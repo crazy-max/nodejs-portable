@@ -30,18 +30,20 @@ Configuration file `nodejs-portable.conf` is generated at first launch :
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
 * Put `nodejs-portable.exe` in a new empty folder.
 
+> Add it to a white list if you receieved a warning from anti-virus software.
+
 ## Getting started
 
 Run `nodejs-portable.exe`, then choose task :
 * **1** to install node.js by entering version and architecture.
 * **2** to launch Node.js shell.
 
-> If you have already installed Node.js, just copy the folder where you want and launch `nodejs-portable.exe` inside.
+> If you have already installed Node.js, create a folder named `app` and put your node.js environment inside, then launch `nodejs-portable.exe`. (See [#35](https://github.com/crazy-max/nodejs-portable/issues/35))
 
 ### Config file `nodejs-portable.conf`
 
-* `workPath` : Shell working dir (can be relative to `nodejs-portable.exe`).
-* `customPaths` : Array of custom paths that will be placed in the PATH environment variable (paths can be relative to `nodejs-portable.exe`).
+* `workPath` : Shell working dir (can be relative to `nodejs-portable.exe` ).
+* `customPaths` : Array of custom paths that will be placed in the `PATH` environment variable (paths can be relative to `nodejs-portable.exe` ).
 * `immediateMode`: Set this to `true` if you want to use node.js shell immediately.
 
 > If an exception happened, take a look into `nodejs-portable.log` for further information.
