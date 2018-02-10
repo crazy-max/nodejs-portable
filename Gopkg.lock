@@ -16,28 +16,32 @@
 [[projects]]
   name = "github.com/mattn/go-colorable"
   packages = ["."]
-  revision = "5411d3eea5978e6cdc258b30de592b60df6aba96"
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
   packages = ["."]
-  revision = "57fdcb988a5c543893cc61bce354a6e24ab70022"
-
-[[projects]]
-  name = "github.com/mcuadros/go-version"
-  packages = ["."]
-  revision = "257f7b9a7d87427c8d7f89469a5958d57f8abd7c"
+  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
+  version = "v0.0.3"
 
 [[projects]]
   branch = "master"
-  name = "github.com/op/go-logging"
+  name = "github.com/mcuadros/go-version"
   packages = ["."]
-  revision = "970db520ece77730c7e4724c61121037378659d9"
+  revision = "88e56e02bea1c203c99222c365fa52a69996ccac"
 
 [[projects]]
+  name = "github.com/op/go-logging"
+  packages = ["."]
+  revision = "b2cb9fa56473e98db8caba80237377e83fe44db5"
+  version = "v1"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "e24f485414aeafb646f6fca458b0bf869c0880a1"
+  revision = "37707fdb30a5b38865cfb95e5aab41707daec7fd"
 
 [solve-meta]
   analyzer-name = "dep"
