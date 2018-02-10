@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.0 (2018/02/10)
+
+* Pass custom args directly to node through nodejs-portable (Issue #34)
+* Fix logging output issue
+* Update libs
+* Compress executable with UPX
+
 ## 2.3.0 (2017/12/27)
 
 * Add ability to set a custom work path (Issue #35)
