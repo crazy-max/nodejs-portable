@@ -8,6 +8,7 @@
   <a href="https://ci.appveyor.com/project/crazy-max/nodejs-portable"><img src="https://img.shields.io/appveyor/ci/crazy-max/nodejs-portable.svg?style=flat-square" alt="AppVeyor"></a>
   <a href="https://goreportcard.com/report/github.com/crazy-max/nodejs-portable"><img src="https://goreportcard.com/badge/github.com/crazy-max/nodejs-portable?style=flat-square" alt="Go Report"></a>
   <a href="https://www.codacy.com/app/crazy-max/nodejs-portable"><img src="https://img.shields.io/codacy/grade/03ea4cd8c645497aba77b5e462b5118c.svg?style=flat-square" alt="Code Quality"></a>
+  <a href="https://beerpay.io/crazy-max/nodejs-portable"><img src="https://img.shields.io/beerpay/crazy-max/nodejs-portable.svg?style=flat-square" alt="Beerpay"></a>
   <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU"><img src="https://img.shields.io/badge/donate-paypal-7057ff.svg?style=flat-square" alt="Donate Paypal"></a>
 </p>
 
@@ -44,9 +45,20 @@ Run `nodejs-portable.exe`, then choose task :
 
 * `workPath` : Shell working dir (can be relative to `nodejs-portable.exe`).
 * `customPaths` : Array of custom paths that will be placed in the `PATH` environment variable (paths can be relative to `nodejs-portable.exe`).
-* `immediateMode`: Set this to `true` if you want to use node.js shell immediately.
+* `immediateMode`: Set this to `true` if you want to use node shell immediately.
 
 > If an exception happened, take a look into `nodejs-portable.log` for further information.
+
+### Command line
+
+Node.js Portable can be used through the command line to inject arguments directly to node :
+
+```
+$ nodejs-portable.exe --version
+v9.5.0
+```
+
+> Take a look into `nodejs-portable.log` if you have any issue.
 
 ## Building
 
@@ -74,11 +86,12 @@ go build -v -ldflags "-s -w"
 
 ## How can i help ?
 
-We welcome all kinds of contributions :raised_hands:!<br />
+All kinds of contributions are welcomed :raised_hands:!<br />
 The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
-Any funds donated will be used to help further development on this project! :gift_heart:
+But we're not gonna lie to each other, I'd rather you buy me a beer or two :beers:!
 
-[![Donate Paypal](https://raw.githubusercontent.com/crazy-max/nodejs-portable/master/res/paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU)
+[![Beerpay](https://beerpay.io/crazy-max/nodejs-portable/badge.svg?style=beer-square)](https://beerpay.io/crazy-max/nodejs-portable)
+ or [![Paypal](res/paypal.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QEEZEYZ6QTKGU)
 
 ## License
 
