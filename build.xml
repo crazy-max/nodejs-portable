@@ -12,7 +12,7 @@
   <property name="release.path" value="${bin.path}\release"/>
   <property name="lib.path" value="${bin.path}\lib"/>
   <property name="tmp.path" value="${bin.path}\tmp"/>
-  <property name="rcedit" value="${lib.path}\rcedit\rcedit.exe"/>
+  <property name="upx" location="${lib.path}\upx\upx.exe"/>
   <property name="ldflags" value="-s -w"/>
 
   <!-- Build number -->
@@ -78,7 +78,7 @@
     <mkdir dir="${tmp.path}"/>
   </target>
 
-  <target name="load.lib" unless="is.lib.loaded" depends="load.lib.antcontrib, load.lib.dep">
+  <target name="load.lib" unless="is.lib.loaded" depends="load.lib.antcontrib, load.lib.dep, load.lib.upx">
     <var name="is.lib.loaded" value="true"/>
   </target>
 
@@ -96,11 +96,28 @@
   </target>
 
   <target name="load.lib.dep" unless="is.lib.loaded">
+    <echo message="Load dep"/>
     <exec executable="go" failonerror="true" dir="${project.basedir}">
       <arg value="get"/>
       <arg value="-v"/>
       <arg value="${dep.package}"/>
     </exec>
+  </target>
+
+  <target name="load.lib.upx" unless="is.lib.loaded">
+    <echo message="Load upx"/>
+    <get dest="${lib.path}\upx.zip" src="${upx.url}" skipexisting="true"/>
+    <if>
+      <not><available file="${lib.path}\upx" type="dir"/></not>
+      <then>
+        <unzip src="${lib.path}\upx.zip" dest="${lib.path}\upx">
+          <patternset>
+            <include name="**/upx.exe"/>
+          </patternset>
+          <mapper type="flatten"/>
+        </unzip>
+      </then>
+    </if>
   </target>
 
   <target name="dep" description="Install vendor">
@@ -139,6 +156,21 @@
       <arg value="${ldflags}"/>
     </exec>
     <assertfile file="${release.path}\${app.id}.exe"/>
+
+    <if>
+      <equals arg1="${debug}" arg2="false"/>
+      <then>
+        <echo message="Compressing executable with UPX..."/>
+        <exec executable="${upx}" failonerror="true" dir="${project.basedir}">
+          <arg value="--brute"/>
+          <arg value="${release.path}\${app.id}.exe"/>
+          <arg value="-o"/>
+          <arg value="${release.path}\${app.id}_upx.exe"/>
+        </exec>
+        <assertfile file="${release.path}\${app.id}_upx.exe"/>
+        <move file="${release.path}\${app.id}_upx.exe" tofile="${release.path}\${app.id}.exe"/>
+      </then>
+    </if>
   </target>
 
 </project>
