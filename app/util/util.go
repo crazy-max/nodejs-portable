@@ -102,7 +102,7 @@ func Println(str string) {
 
 // PrintError print error in red color
 func PrintError(err error) {
-	log.Logger.Error(err)
+	log.Logger.Error(err.Error())
 	color.New(color.FgRed).Printf("Error: %s\n", err.Error())
 }
 
@@ -114,7 +114,7 @@ func PrintErrorStr(str string) {
 
 // PrintWarning print warning in yellow color
 func PrintWarning(err error) {
-	log.Logger.Warning(err)
+	log.Logger.Warning(err.Error())
 	color.New(color.FgYellow).Printf("Warning: %s\n", err.Error())
 }
 
@@ -166,7 +166,7 @@ func DownloadLib(lib Lib) error {
 
 // QuitFatal quit the app and wait for user input
 func QuitFatal(err error) {
-	log.Logger.Error(err)
+	log.Logger.Error(err.Error())
 	color.New(color.FgHiRed, color.Bold).Printf("\nFatal: %s\n", err.Error())
 	fmt.Print("Press Enter to exit...")
 	reader := bufio.NewReader(os.Stdin)
