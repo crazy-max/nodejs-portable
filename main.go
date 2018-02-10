@@ -29,11 +29,17 @@ func init() {
 	util.SetConsoleTitle(fmt.Sprintf("%s %s", app.Name, app.Version))
 
 	log.Logger.Info("--------")
-	log.Logger.Info(fmt.Sprintf("Starting %s %s...", app.Name, app.Version))
-	log.Logger.Info("Current path:", pathu.CurrentPath)
+	log.Logger.Infof("Starting %s %s...", app.Name, app.Version)
+	log.Logger.Infof("Current path: %s", pathu.CurrentPath)
 }
 
 func main() {
+	// pass args directly to node.exe and exit
+	if len(os.Args[1:]) > 0 {
+		node(os.Args[1:]...)
+		return
+	}
+
 	color.New(color.FgHiWhite).Println(app.Name + " " + app.Version)
 	color.New(color.FgHiWhite).Println(app.Url)
 
@@ -268,4 +274,64 @@ func shell(args ...string) error {
 	}
 
 	return nil
+}
+
+func node(args ...string) {
+	log.Logger.Info(">> NODE")
+
+	// check if installed
+	if _, err := fs.Stat(path.Join(pathu.AppPath, "node.exe")); err != nil {
+		log.Logger.Error("node.exe not found...")
+		return
+	}
+
+	// create tmp folder
+	fs.CreateSubfolder(pathu.TmpPath)
+
+	// create config
+	if err := nodejs.CreateConfig(); err != nil {
+		log.Logger.Error(err.Error())
+		return
+	}
+
+	// check custom paths
+	customPaths := ""
+	for _, customPath := range app.Conf.CustomPaths {
+		if customPath == "" {
+			continue
+		}
+		tmpCustomPath, _ := filepath.Abs(customPath)
+		if _, err := os.Stat(tmpCustomPath); err == nil {
+			if customPaths != "" {
+				customPaths = customPaths + ";"
+			}
+			customPaths = customPaths + strings.TrimRight(fs.FormatWinPath(tmpCustomPath), `\`)
+		}
+	}
+
+	// add custom paths
+	if customPaths != "" {
+		os.Setenv("PATH", fmt.Sprintf("%s;%s", customPaths, os.Getenv("PATH")))
+	}
+
+	// add Node to path
+	if err := os.Setenv("PATH", fmt.Sprintf("%s;%s", fs.RemoveUnc(pathu.AppPath), os.Getenv("PATH"))); err != nil {
+		log.Logger.Error(err.Error())
+	}
+
+	// set NODE_PATH
+	if err := os.Setenv("NODE_PATH", fs.RemoveUnc(fs.FormatWinPath(path.Join(pathu.AppPath, "node_modules")))); err != nil {
+		log.Logger.Error(err.Error())
+	}
+
+	execute := exec.Command(fs.RemoveUnc(path.Join(pathu.AppPath, "node.exe")), args...)
+	execute.Stdout = os.Stdout
+	execute.Stderr = os.Stderr
+
+	log.Logger.Infof("Exec %s %s ", fs.RemoveUnc(fs.FormatWinPath(path.Join(pathu.AppPath, "node.exe"))), strings.Join(args, " "))
+	if err := execute.Start(); err != nil {
+		log.Logger.Fatalf("Command failed: %v", err)
+	}
+
+	execute.Wait()
 }
