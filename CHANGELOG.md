@@ -2,7 +2,7 @@
 
 ## 2.4.0 (2018/02/10)
 
-* Pass custom args directly to node through nodejs-portable (Issue #34)
+* Pass custom arguments directly to node through nodejs-portable (Issue #34)
 * Fix logging output issue
 * Update libs
 * Compress executable with UPX
