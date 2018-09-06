@@ -79,26 +79,10 @@ v9.5.0
 
 ```
 set GOARCH=386
-go get -u github.com/Masterminds/glide
-glide install -v
+go mod download
 go generate -v
 go build -v -ldflags "-s -w"
 ```
-
-> Tips: 由于国内网络环境原因,以下是我总结的天朝用户构造方法
-
-- 设置好 GOPATH 后,进入项目路径下,使用 `go build` 直接编译, 会抛出一堆异常
-- 针对丢失的包,`go get 包`
-- 然后用 git 对照`glide.lock` 手动 `git reset --hard 版本号`
-- 然后再用以下命令编译
-
-```
-set GOARCH=386
-go generate -v
-go build -v -ldflags "-s -w"
-```
-
-**一般编译出现问题大多是依赖版本错误** ,嗯,就酱紫。
 
 ## 我怎么支持项目？
 
