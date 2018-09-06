@@ -1,9 +1,12 @@
 module github.com/crazy-max/nodejs-portable
 
 require (
+	github.com/akavel/rsrc v0.0.0-20170831122431-f6a15ece2cfd // indirect
 	github.com/cavaliercoder/grab v1.0.0
 	github.com/djherbis/times v1.0.1 // indirect
 	github.com/fatih/color v1.4.1
+	github.com/josephspurrier/goversioninfo v0.0.0-20180220052333-42534847954b
+	github.com/jteeuwen/go-bindata v3.0.7+incompatible
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.3 // indirect
 	github.com/mcuadros/go-version v0.0.0-20171003094716-88e56e02bea1
