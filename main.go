@@ -1,6 +1,6 @@
-//go:generate go get -v github.com/jteeuwen/go-bindata/go-bindata/...
+//go:generate go get -v github.com/jteeuwen/go-bindata/go-bindata
 //go:generate go-bindata -pkg bindata -o app/bindata/bindata.go nodejs-portable.conf
-//go:generate go get -v github.com/josephspurrier/goversioninfo/...
+//go:generate go get -v github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 //go:generate goversioninfo -icon=res/app.ico
 package main
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.4.1 (2018/09/06)
+
+* Upgrade to Go 1.11
+* Use [go mod](https://golang.org/cmd/go/#hdr-Module_maintenance) instead of `dep`
+
 ## 2.4.0 (2018/02/10)
 
 * Pass custom arguments directly to node through nodejs-portable (Issue #34)

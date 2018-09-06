@@ -78,7 +78,7 @@
     <mkdir dir="${tmp.path}"/>
   </target>
 
-  <target name="load.lib" unless="is.lib.loaded" depends="load.lib.antcontrib, load.lib.dep, load.lib.upx">
+  <target name="load.lib" unless="is.lib.loaded" depends="load.lib.antcontrib, load.lib.upx">
     <var name="is.lib.loaded" value="true"/>
   </target>
 
@@ -93,15 +93,6 @@
         </fileset>
       </classpath>
     </taskdef>
-  </target>
-
-  <target name="load.lib.dep" unless="is.lib.loaded">
-    <echo message="Load dep"/>
-    <exec executable="go" failonerror="true" dir="${project.basedir}">
-      <arg value="get"/>
-      <arg value="-v"/>
-      <arg value="${dep.package}"/>
-    </exec>
   </target>
 
   <target name="load.lib.upx" unless="is.lib.loaded">
@@ -120,10 +111,10 @@
     </if>
   </target>
 
-  <target name="dep" description="Install vendor">
-    <exec executable="dep" failonerror="true" dir="${project.basedir}">
-      <arg value="ensure"/>
-      <arg value="-v"/>
+  <target name="downmod" description="Download modules">
+    <exec executable="go" failonerror="true" dir="${project.basedir}">
+      <arg value="mod"/>
+      <arg value="download"/>
     </exec>
   </target>
 
@@ -138,7 +129,7 @@
     </exec>
   </target>
 
-  <target name="build" depends="dep, generate">
+  <target name="build" depends="downmod, generate">
     <var name="ldflags" value="-s -w"/>
     <ldflags add="-X '${app.package}/app/app.Id=${app.id}'"/>
     <ldflags add="-X '${app.package}/app/app.Name=${app.name}'"/>

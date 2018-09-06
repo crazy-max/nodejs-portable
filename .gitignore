@@ -5,7 +5,7 @@
 # App
 /.dev
 /bin
-/vendor
 /*.syso
 /*.exe
+/go.sum
 /versioninfo.json
