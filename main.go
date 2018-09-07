@@ -1,4 +1,4 @@
-//go:generate go install -v -i github.com/jteeuwen/go-bindata/go-bindata
+//go:generate go install -v -i github.com/kevinburke/go-bindata/go-bindata
 //go:generate go-bindata -pkg bindata -o app/bindata/bindata.go nodejs-portable.conf
 //go:generate go install -v -i github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 //go:generate goversioninfo -icon=res/app.ico
@@ -6,7 +6,7 @@ package main
 
 import (
 	_ "github.com/josephspurrier/goversioninfo"
-	_ "github.com/jteeuwen/go-bindata"
+	_ "github.com/kevinburke/go-bindata"
 
 	"bufio"
 	"fmt"
