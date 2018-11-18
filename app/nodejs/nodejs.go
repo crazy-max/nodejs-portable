@@ -52,7 +52,7 @@ func init() {
 
 // GetLatestVersion returns the latest version of Node.js
 func GetLatestVersion() (string, error) {
-	client := &http.Client{Timeout: 2 * time.Second}
+	client := &http.Client{Timeout: 5 * time.Second}
 	response, err := client.Get(distJSON)
 	if err != nil {
 		return "", err
