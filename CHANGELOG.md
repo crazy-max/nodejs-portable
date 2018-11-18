@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.0 (2018/11/18)
+
+* Allow to use a custom shell (Issue #40)
+* Move to TEMP folder instead of USERPROFILE (Issue #38)
+* Increase timeout to find latest version
+
 ## 2.4.1 (2018/09/06)
 
 * Upgrade to Go 1.11
