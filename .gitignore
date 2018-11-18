@@ -7,5 +7,4 @@
 /bin
 /*.syso
 /*.exe
-/go.sum
 /versioninfo.json
