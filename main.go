@@ -239,6 +239,17 @@ func shell(args ...string) error {
 	}
 	util.PrintOk()
 
+	// check shell
+	var shellProc string
+	var shellCmdLine string
+	if app.Conf.Shell == "powershell" {
+		shellProc, _ = exec.LookPath("powershell.exe")
+		shellCmdLine = fmt.Sprintf("-? -NoExit -Command %s", fs.RemoveUnc(launchScript))
+	} else {
+		shellProc = os.Getenv("COMSPEC")
+		shellCmdLine = fmt.Sprintf(` /k "%s"`, fs.RemoveUnc(launchScript))
+	}
+
 	if app.Conf.ImmediateMode == false {
 		// wait user input to open the shell
 		fmt.Print("\nPress Enter to open the shell...")
@@ -248,7 +259,12 @@ func shell(args ...string) error {
 
 	// clear screen
 	util.Println("Clearing screen...")
-	clear := exec.Command("cmd", "/c", "cls")
+	var clear *exec.Cmd
+	if app.Conf.Shell == "powershell" {
+		clear = exec.Command("powershell", "Clear-Host;")
+	} else {
+		clear = exec.Command("cmd", "/c", "cls")
+	}
 	clear.Stdout = os.Stdout
 	clear.Run()
 
@@ -258,13 +274,13 @@ func shell(args ...string) error {
 		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
 		Dir:   fs.RemoveUnc(app.Conf.WorkPath),
 		Sys: &syscall.SysProcAttr{
-			CmdLine: fmt.Sprintf(` /k "%s"`, fs.RemoveUnc(launchScript)),
+			CmdLine: shellCmdLine,
 		},
 	}
 
 	// start up a new shell.
 	log.Logger.Info("Starting up the shell... ")
-	proc, err := os.StartProcess(os.Getenv("COMSPEC"), []string{}, &pa)
+	proc, err := os.StartProcess(shellProc, []string{}, &pa)
 	if err != nil {
 		util.PrintError(err)
 		return nil

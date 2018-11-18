@@ -34,6 +34,7 @@ var (
 type ConfStruct struct {
 	Version       string   `json:"version"`
 	ImmediateMode bool     `json:"immediateMode"`
+	Shell         string   `json:"shell"`
 	WorkPath      string   `json:"workPath"`
 	CustomPaths   []string `json:"customPaths"`
 }

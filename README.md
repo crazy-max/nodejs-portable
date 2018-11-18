@@ -45,6 +45,7 @@ Run `nodejs-portable.exe`, then choose task :
 * `workPath` : Shell working dir (can be relative to `nodejs-portable.exe`).
 * `customPaths` : Array of custom paths that will be placed in the `PATH` environment variable (paths can be relative to `nodejs-portable.exe`).
 * `immediateMode`: Set this to `true` if you want to use node shell immediately.
+* `shell`: Shell to be used. Can be `cmd` (default) or `powershell`.
 
 > If an exception happened, take a look into `nodejs-portable.log` for further information.
 
@@ -82,9 +83,9 @@ go generate -v
 go build -v -ldflags "-s -w"
 ```
 
-## How can i help ?
+## How can I help ?
 
-All kinds of contributions are welcomed :raised_hands:!<br />
+All kinds of contributions are welcome :raised_hands:!<br />
 The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:<br />
 But we're not gonna lie to each other, I'd rather you buy me a beer or two :beers:!
 

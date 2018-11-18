@@ -47,6 +47,7 @@
 * `workPath` : 环境的工作目录 (可以是相对于 `nodejs-portable.exe` 的相对路径)。
 * `customPaths` : 一组用于放入 `PATH` 环境变量 的路径 (可以是相对于 `nodejs-portable.exe` 的相对路径)。
 * `immediateMode`: 立即模式, 将其设置为 `true` 来直接打开运行时环境。
+* `shell`: Shell to be used. Can be `cmd` (default) or `powershell`.
 
 > 如果出现了异常, 请检查或提供 `nodejs-portable.log` 来获取更多信息.
 
