@@ -6,7 +6,7 @@ require (
 	github.com/djherbis/times v1.0.1 // indirect
 	github.com/fatih/color v1.4.1
 	github.com/josephspurrier/goversioninfo v0.0.0-20180220052333-42534847954b
-	github.com/kevinburke/go-bindata v3.11.0+incompatible
+	github.com/kevinburke/go-bindata v3.13.0+incompatible
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.3 // indirect
 	github.com/mcuadros/go-version v0.0.0-20171003094716-88e56e02bea1
