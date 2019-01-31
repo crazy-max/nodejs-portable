@@ -11,8 +11,12 @@ environment:
 
 install:
   - ps: choco install ant
+  - ps: choco install make --version 3.81.4
   - ps: $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-  - cmd: SET PATH=%GOPATH%\bin;%GOPATH%\bin\windows_386;%GOROOT%bin;%PATH%
+  - cmd: set PATH=%GOPATH%\bin;%GOPATH%\bin\windows_386;%GOROOT%bin;%PATH%
+  - rmdir c:\go /s /q
+  - appveyor DownloadFile https://storage.googleapis.com/golang/go%GOVERSION%.windows-amd64.zip
+  - 7z x go%GOVERSION%.windows-amd64.zip -y -oC:\ > NUL
   - java -version
   - ant -version
   - go version
