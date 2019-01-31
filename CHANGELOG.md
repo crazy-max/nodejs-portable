@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0 (2019/01/31)
+
+* Upgrade to Go 1.11.5
+
 ## 2.5.0 (2018/11/18)
 
 * Allow to use a custom shell (Issue #40)

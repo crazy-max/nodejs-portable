@@ -10,6 +10,6 @@ require (
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.3 // indirect
 	github.com/mcuadros/go-version v0.0.0-20171003094716-88e56e02bea1
-	github.com/op/go-logging v0.0.0-20160211212156-b2cb9fa56473
+	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 	golang.org/x/sys v0.0.0-20180202135801-37707fdb30a5 // indirect
 )
