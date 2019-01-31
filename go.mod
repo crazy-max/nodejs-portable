@@ -4,7 +4,7 @@ require (
 	github.com/akavel/rsrc v0.0.0-20170831122431-f6a15ece2cfd // indirect
 	github.com/cavaliercoder/grab v1.0.0
 	github.com/djherbis/times v1.0.1 // indirect
-	github.com/fatih/color v1.4.1
+	github.com/fatih/color v1.7.0
 	github.com/josephspurrier/goversioninfo v0.0.0-20180220052333-42534847954b
 	github.com/kevinburke/go-bindata v3.11.0+incompatible
 	github.com/mattn/go-colorable v0.0.9 // indirect
