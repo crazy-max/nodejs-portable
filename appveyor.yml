@@ -7,7 +7,7 @@ environment:
   JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
   GOPATH: C:\gopath
   GOROOT: C:\go\
-  GOVERSION: 1.11.5
+  GOVERSION: 1.12.4
 
 install:
   - ps: choco install ant

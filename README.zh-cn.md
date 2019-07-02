@@ -64,7 +64,7 @@ v9.5.0
 
 ## 构建
 
-* 安装 [Go](https://golang.org/dl/) 1.11+
+* 安装 [Go](https://golang.org/dl/) 1.12+
 * 将 Go 加入你的 PATH 环境变量 (例如 `C:\Go\bin`)
 * 安装 [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
 * 将 Java 加入你的 PATH 环境变量 (例如 `C:\Program Files (x86)\Java\jdk1.8.0_144\bin`)
