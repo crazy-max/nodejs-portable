@@ -19,8 +19,8 @@ import (
 
 const (
 	distJSON       = "https://nodejs.org/dist/index.json"
-	zipURL         = "http://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
-	msiURL         = "http://nodejs.org/dist/v%s/node-v%s-%s.msi"
+	zipURL         = "https://nodejs.org/dist/v%s/node-v%s-win-%s.zip"
+	msiURL         = "https://nodejs.org/dist/v%s/node-v%s-%s.msi"
 	npmrcGlobalTpl = `prefix = @NODE_PATH@\`
 	npmrcTpl       = `cache = @CURRENT_PATH@\cache
 globalconfig = @NODE_PATH@\etc\npmrc
