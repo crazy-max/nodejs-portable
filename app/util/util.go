@@ -28,27 +28,32 @@ type Lib struct {
 
 // DownloadFile downloads a file and display status
 func DownloadFile(filename string, url string) error {
-	req, err := grab.NewRequest(url)
+	req, err := grab.NewRequest(filename, url)
 	if err != nil {
 		return err
 	}
-	req.Filename = filename
 
-	respch := grab.DefaultClient.DoAsync(req)
-	resp := <-respch
-
+	resp := grab.DefaultClient.Do(req)
 	ticker := time.NewTicker(200 * time.Millisecond)
-	for range ticker.C {
-		if resp.IsComplete() {
-			if resp.Error != nil {
-				return resp.Error
+	defer ticker.Stop()
+
+Loop:
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Print(".")
+		case <-resp.Done:
+			if resp.Err() != nil {
+				return resp.Err()
 			}
-			break
+			break Loop
 		}
-		fmt.Print(".")
 	}
 
-	ticker.Stop()
+	if err := resp.Err(); err != nil {
+		return resp.Err()
+	}
+
 	return nil
 }
 

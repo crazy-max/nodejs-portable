@@ -1,9 +1,15 @@
 # Changelog
 
+## 2.7.0 (2019/07/01)
+
+* Use HTTPS (Issue #47)
+* Update libs
+* Go 1.12.4
+
 ## 2.6.0 (2019/01/31)
 
-* Update deps
-* Upgrade to Go 1.11.5
+* Update libs
+* Go 1.11.5
 
 ## 2.5.0 (2018/11/18)
 
