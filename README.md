@@ -1,4 +1,4 @@
-> Node.js Portable is now integrated on [Neard](http://neard.io) !
+> For more portble applications, checkout [Portapps](https://portapps.io) !
 
 <p align="center"><a href="https://github.com/crazy-max/nodejs-portable" target="_blank"><img width="100" src="https://github.com/crazy-max/nodejs-portable/blob/master/res/logo.png"></a></p>
 
