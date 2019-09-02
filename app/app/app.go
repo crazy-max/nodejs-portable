@@ -16,15 +16,6 @@ import (
 	"github.com/crazy-max/nodejs-portable/app/util"
 )
 
-// App infos
-var (
-	Id      = "nodejs-portable"
-	Name    = "Node.js Portable"
-	Package = "github.com/crazy-max/nodejs-portable"
-	Url     = "https://" + Package
-	Version = "1.0"
-)
-
 // Config
 var (
 	Conf ConfStruct

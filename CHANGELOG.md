@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.0 (2019/09/02)
+
+* Switch to GitHub Actions
+
 ## 2.7.0 (2019/07/01)
 
 * Use HTTPS (Issue #47)

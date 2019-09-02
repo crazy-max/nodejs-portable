@@ -12,14 +12,14 @@
 		"Comments": "",
 		"CompanyName": "",
 		"FileDescription": "@APP_DESC@",
-		"FileVersion": "@APP_VERSION@.@APP_RELEASE@",
+		"FileVersion": "@APP_VERSION@.0",
 		"InternalName": "",
 		"LegalCopyright": "@APP_COPYRIGHT@",
 		"LegalTrademarks": "",
 		"OriginalFilename": "@APP_ID@.exe",
 		"PrivateBuild": "",
 		"ProductName": "@APP_NAME@",
-		"ProductVersion": "@APP_VERSION@.@APP_RELEASE@",
+		"ProductVersion": "@APP_VERSION@.0",
 		"SpecialBuild": ""
 	},
 	"VarFileInfo":

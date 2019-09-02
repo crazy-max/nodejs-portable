@@ -1,6 +1,6 @@
-//go:generate go install -v -i github.com/kevinburke/go-bindata/go-bindata
+//go:generate go get -u github.com/kevinburke/go-bindata/go-bindata
 //go:generate go-bindata -pkg bindata -o app/bindata/bindata.go nodejs-portable.conf
-//go:generate go install -v -i github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+//go:generate go get -u github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 //go:generate goversioninfo -icon=res/app.ico
 package main
 
@@ -25,14 +25,19 @@ import (
 	"github.com/crazy-max/nodejs-portable/app/pathu"
 	"github.com/crazy-max/nodejs-portable/app/util"
 	"github.com/fatih/color"
-	version "github.com/mcuadros/go-version"
+	goversion "github.com/mcuadros/go-version"
+)
+
+var (
+	version = "dev"
+	url     = "https://github.com/crazy-max/nodejs-portable"
 )
 
 func init() {
-	util.SetConsoleTitle(fmt.Sprintf("%s %s", app.Name, app.Version))
+	util.SetConsoleTitle(fmt.Sprintf("Node.js Portable %s", version))
 
 	log.Logger.Info("--------")
-	log.Logger.Infof("Starting %s %s...", app.Name, app.Version)
+	log.Logger.Infof("Starting Node.js Portable %s...", version)
 	log.Logger.Infof("Current path: %s", pathu.CurrentPath)
 }
 
@@ -43,20 +48,20 @@ func main() {
 		return
 	}
 
-	color.New(color.FgHiWhite).Println(app.Name + " " + app.Version)
-	color.New(color.FgHiWhite).Println(app.Url)
+	color.New(color.FgHiWhite).Println("Node.js Portable " + version)
+	color.New(color.FgHiWhite).Println(url)
 
 	// check for update
 	latestVersion, err := util.GetLatestVersion()
 	if err != nil {
 		log.Logger.Error("Cannot contact the update server:", err.Error())
-		color.New(color.FgYellow).Printf("\n%s can't contact the update server: %s\n", app.Name, err.Error())
-	} else if version.Compare(app.Version, latestVersion, "<") {
+		color.New(color.FgYellow).Printf("\nCan't contact the update server: %s\n", err.Error())
+	} else if goversion.Compare(version, latestVersion, "<") {
 		log.Logger.Info("New release available:", latestVersion)
 		color.New(color.FgHiGreen).Print("\nA new release is available : ")
 		color.New(color.FgHiGreen, color.Bold).Print(latestVersion)
 		color.New(color.FgHiGreen).Print("\nDownload : ")
-		color.New(color.FgHiGreen, color.Bold).Print(app.Url + "/releases/latest\n")
+		color.New(color.FgHiGreen, color.Bold).Print(url + "/releases/latest\n")
 	}
 
 	// open shell on immediate mode

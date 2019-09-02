@@ -15,9 +15,23 @@
   <property name="upx" location="${lib.path}\upx\upx.exe"/>
   <property name="ldflags" value="-s -w"/>
 
-  <!-- Build number -->
-  <condition property="app.release" value="${env.APPVEYOR_BUILD_NUMBER}"><isset property="env.APPVEYOR_BUILD_NUMBER"/></condition>
-  <condition property="app.release" value="${app.default.release}"><not><isset property="env.APPVEYOR_BUILD_NUMBER"/></not></condition>
+  <!-- Version -->
+  <condition property="app.version" value="${env.TAG_NAME}">
+    <and>
+      <isset property="env.TAG_NAME"/>
+      <not><equals arg1="${env.TAG_NAME}" arg2=""/></not>
+    </and>
+  </condition>
+  <condition property="app.version" value="1.0.0"><not><isset property="app.version"/></not></condition>
+
+  <!-- URL -->
+  <condition property="app.url" value="${env.REPO_URL}">
+    <and>
+      <isset property="env.REPO_URL"/>
+      <not><equals arg1="${env.REPO_URL}" arg2=""/></not>
+    </and>
+  </condition>
+  <condition property="app.url" value="https://github.com/crazy-max/nodejs-portable"><not><isset property="app.url"/></not></condition>
 
   <!-- Macros -->
   <macrodef name="assertdir">
@@ -51,23 +65,16 @@
     <filter token="APP_NAME" value="${app.name}"/>
     <filter token="APP_DESC" value="${app.desc}"/>
     <filter token="APP_VERSION" value="${app.version}"/>
-    <filter token="APP_RELEASE" value="${app.release}"/>
     <filter token="APP_COPYRIGHT" value="${app.url}"/>
   </filterset>
-  <echo message="-----------------------------------"/>
   <echo message="APP_ID        : ${app.id}"/>
   <echo message="APP_NAME      : ${app.name}"/>
   <echo message="APP_DESC      : ${app.desc}"/>
   <echo message="APP_VERSION   : ${app.version}"/>
-  <echo message="APP_RELEASE   : ${app.release}"/>
   <echo message="APP_COPYRIGHT : ${app.url}"/>
-  <echo message="-----------------------------------"/>
 
   <!-- Targets -->
-  <target name="release" depends="init, load.lib, build" description="Release">
-    <echo message="Writing version.dat..."/>
-    <echo file="${tmp.path}/version.dat" append="false">${app.version}</echo>
-  </target>
+  <target name="release" depends="init, load.lib, build" description="Release"/>
 
   <target name="init">
     <mkdir dir="${bin.path}"/>
@@ -131,11 +138,8 @@
 
   <target name="build" depends="downmod, generate">
     <var name="ldflags" value="-s -w"/>
-    <ldflags add="-X '${app.package}/app/app.Id=${app.id}'"/>
-    <ldflags add="-X '${app.package}/app/app.Name=${app.name}'"/>
-    <ldflags add="-X '${app.package}/app/app.Package=${app.package}'"/>
-    <ldflags add="-X '${app.package}/app/app.Url=${app.url}'"/>
-    <ldflags add="-X '${app.package}/app/app.Version=${app.version}'"/>
+    <ldflags add="-X 'main.version=${app.version}'"/>
+    <ldflags add="-X 'main.url=${app.url}'"/>
 
     <exec executable="go" failonerror="true" dir="${project.basedir}">
       <env key="GOARCH" value="386"/>
