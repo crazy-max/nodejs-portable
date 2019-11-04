@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.0 (2019/11/04)
+
+* Switch to [magefile](https://magefile.org) to build app
+* Go 1.12.10
+* Update libs
+
 ## 2.8.0 (2019/09/02)
 
 * Switch to GitHub Actions
