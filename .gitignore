@@ -7,4 +7,5 @@
 /bin
 /*.syso
 /*.exe
+/nodejs-portable.conf
 /versioninfo.json

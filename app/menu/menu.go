@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/akyoto/color"
 	"github.com/crazy-max/nodejs-portable/app/util"
-	"github.com/fatih/color"
 )
 
 // CommandOption main struct to handle options for Description, and the function that should be called

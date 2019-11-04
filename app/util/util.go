@@ -12,10 +12,10 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/akyoto/color"
 	"github.com/cavaliercoder/grab"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/log"
-	"github.com/fatih/color"
 )
 
 // Lib structure

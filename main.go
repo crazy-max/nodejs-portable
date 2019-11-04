@@ -1,13 +1,10 @@
-//go:generate go get -u github.com/kevinburke/go-bindata/go-bindata
+//go:generate go install github.com/kevinburke/go-bindata/go-bindata
 //go:generate go-bindata -pkg bindata -o app/bindata/bindata.go nodejs-portable.conf
-//go:generate go get -u github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+//go:generate go install github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 //go:generate goversioninfo -icon=res/app.ico
 package main
 
 import (
-	_ "github.com/josephspurrier/goversioninfo"
-	_ "github.com/kevinburke/go-bindata"
-
 	"bufio"
 	"fmt"
 	"os"
@@ -17,6 +14,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/akyoto/color"
 	"github.com/crazy-max/nodejs-portable/app/app"
 	"github.com/crazy-max/nodejs-portable/app/fs"
 	"github.com/crazy-max/nodejs-portable/app/log"
@@ -24,13 +22,12 @@ import (
 	"github.com/crazy-max/nodejs-portable/app/nodejs"
 	"github.com/crazy-max/nodejs-portable/app/pathu"
 	"github.com/crazy-max/nodejs-portable/app/util"
-	"github.com/fatih/color"
 	goversion "github.com/mcuadros/go-version"
 )
 
 var (
 	version = "dev"
-	url     = "https://github.com/crazy-max/nodejs-portable"
+	module  = "github.com/crazy-max/nodejs-portable"
 )
 
 func init() {
@@ -49,7 +46,7 @@ func main() {
 	}
 
 	color.New(color.FgHiWhite).Println("Node.js Portable " + version)
-	color.New(color.FgHiWhite).Println(url)
+	color.New(color.FgHiWhite).Println("https://" + module)
 
 	// check for update
 	latestVersion, err := util.GetLatestVersion()
@@ -61,7 +58,7 @@ func main() {
 		color.New(color.FgHiGreen).Print("\nA new release is available : ")
 		color.New(color.FgHiGreen, color.Bold).Print(latestVersion)
 		color.New(color.FgHiGreen).Print("\nDownload : ")
-		color.New(color.FgHiGreen, color.Bold).Print(url + "/releases/latest\n")
+		color.New(color.FgHiGreen, color.Bold).Print("https://" + module + "/releases/latest\n")
 	}
 
 	// open shell on immediate mode
