@@ -31,11 +31,9 @@ Configuration file `nodejs-portable.conf` is generated at first launch:
 * Download the [latest release](https://github.com/crazy-max/nodejs-portable/releases/latest).
 * Put `nodejs-portable.exe` in a new empty folder.
 
-> Add it to a white list if you receieved a warning from anti-virus software.
-
 ## Getting started
 
-Run `nodejs-portable.exe`, then choose task :
+Run `nodejs-portable.exe`, then choose task:
 * **1** to install node.js by entering version and architecture.
 * **2** to launch Node.js shell.
 
@@ -68,7 +66,7 @@ v9.5.0
 * Install latest version of [Mage](https://github.com/magefile/mage/releases/latest)
 * Add Mage to your PATH
 * Clone this repository
-* Run `mage build` inside. The artifact will be available in `bin\release`
+* Run `mage build` inside. The artifact will be available in `bin`
 
 ## How can I help ?
 

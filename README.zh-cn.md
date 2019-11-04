@@ -31,8 +31,6 @@
 * 下载 [最新的发布版本](https://github.com/crazy-max/nodejs-portable/releases/latest) 。
 * 将 `nodejs-portable.exe` 放入一个空文件夹。
 
-> 如果你的安全软件发出警告,无视之并把程序加入白名单
-
 > 非常不推荐将 `nodejs-portable.exe` 放入带中文的路径中,可能会报各种诡异的错误Orz
 
 ## 开始使用
@@ -70,7 +68,7 @@ v9.5.0
 * Install latest version of [Mage](https://github.com/magefile/mage/releases/latest)
 * Add Mage to your PATH
 * Clone this repository
-* Run `mage build` inside. The artifact will be available in `bin\release`
+* Run `mage build` inside. The artifact will be available in `bin`
 
 ## 我怎么支持项目？
 
