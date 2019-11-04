@@ -22,7 +22,7 @@ Tested on Windows 7, Windows 8.1 and Windows 10.
 ![](res/screenshots/main-20170915.gif)
 > Main window of Node.js Portable
 
-Configuration file `nodejs-portable.conf` is generated at first launch :
+Configuration file `nodejs-portable.conf` is generated at first launch:
 
 ![](res/screenshots/files-20171227.png)
 
@@ -52,7 +52,7 @@ Run `nodejs-portable.exe`, then choose task :
 
 ### Command line
 
-Node.js Portable can be used through the command line to inject arguments directly to node :
+Node.js Portable can be used through the command line to inject arguments directly to node:
 
 ```
 $ nodejs-portable.exe --version
@@ -65,24 +65,10 @@ v9.5.0
 
 * Install [Go](https://golang.org/dl/) 1.12+
 * Add Go to your PATH (ex. `C:\Go\bin`)
-* Install [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
-* Add Java to your PATH (ex. `C:\Program Files (x86)\Java\jdk1.8.0_144\bin`)
-* Install [Apache Ant](http://ant.apache.org/bindownload.cgi) 1.9+
-* Add Ant to your PATH (ex. `C:\apache-ant\bin`)
-
-Then,
-
-* Clone this repository to `$GOPATH/src/github.com/crazy-max/nodejs-portable`
-* Run `ant release`. The artefact will be available in `bin\release`
-
-If you don't want to use Java/Ant to build the project, run :
-
-```
-set GOARCH=386
-go mod download
-go generate -v
-go build -v -ldflags "-s -w"
-```
+* Install latest version of [Mage](https://github.com/magefile/mage/releases/latest)
+* Add Mage to your PATH
+* Clone this repository
+* Run `mage build` inside. The artifact will be available in `bin\release`
 
 ## How can I help ?
 

@@ -54,7 +54,7 @@
 
 ### Command line
 
-Node.js Portable can be used through the command line to inject arguments directly to node :
+Node.js Portable can be used through the command line to inject arguments directly to node:
 
 ```
 $ nodejs-portable.exe --version
@@ -67,24 +67,10 @@ v9.5.0
 
 * 安装 [Go](https://golang.org/dl/) 1.12+
 * 将 Go 加入你的 PATH 环境变量 (例如 `C:\Go\bin`)
-* 安装 [Java SE Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8+
-* 将 Java 加入你的 PATH 环境变量 (例如 `C:\Program Files (x86)\Java\jdk1.8.0_144\bin`)
-* 安装 [Apache Ant](http://ant.apache.org/bindownload.cgi) 1.9+
-* 将 Ant 加入你的 PATH 环境变量 (例如 `C:\apache-ant\bin`)
-
-接着,
-
-* Clone 这个项目到 `$GOPATH/src/github.com/crazy-max/nodejs-portable`
-* 运行 `ant release` 。生成的可执行文件会位于  `bin\release`
-
-路过你不想用 Java/Ant 来构建此项目,运行：
-
-```
-set GOARCH=386
-go mod download
-go generate -v
-go build -v -ldflags "-s -w"
-```
+* Install latest version of [Mage](https://github.com/magefile/mage/releases/latest)
+* Add Mage to your PATH
+* Clone this repository
+* Run `mage build` inside. The artifact will be available in `bin\release`
 
 ## 我怎么支持项目？
 
