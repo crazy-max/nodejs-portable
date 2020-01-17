@@ -28,7 +28,7 @@ type ConfStruct struct {
 	Shell         string   `json:"shell"`
 	WorkPath      string   `json:"workPath"`
 	CustomPaths   []string `json:"customPaths"`
-	ClearScreen   bool     `json:"clearScreen`
+	ClearScreen   bool     `json:"clearScreen"`
 }
 
 func init() {
