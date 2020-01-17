@@ -58,14 +58,14 @@ jobs:
           version: latest
           args: build
       -
-        # https://github.com/svenstaro/upx-action
+        # https://github.com/crazy-max/ghaction-upx
         name: UPX compress
-        uses: svenstaro/upx-action@v1-release
+        uses: crazy-max/ghaction-upx@v1
         if: success()
         with:
+          version: latest
           file: bin/nodejs-portable.exe
           args: -fq
-          strip: false
       -
         # https://github.com/softprops/action-gh-release
         name: GitHub Release
