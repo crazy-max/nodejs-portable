@@ -42,7 +42,7 @@ func main() {
 	// pass args directly to node.exe and exit
 	if len(os.Args[1:]) > 0 {
 		node(os.Args[1:]...)
-		return
+		return		
 	}
 
 	color.New(color.FgHiWhite).Println("Node.js Portable " + version)
@@ -260,15 +260,17 @@ func shell(args ...string) error {
 	}
 
 	// clear screen
-	util.Println("Clearing screen...")
-	var clear *exec.Cmd
-	if app.Conf.Shell == "powershell" {
-		clear = exec.Command("powershell", "Clear-Host;")
-	} else {
-		clear = exec.Command("cmd", "/c", "cls")
+	if app.Conf.ClearScreen == true {		
+		util.Println("Clearing screen...")
+		var clear *exec.Cmd
+		if app.Conf.Shell == "powershell" {
+			clear = exec.Command("powershell", "Clear-Host;")
+		} else {
+			clear = exec.Command("cmd", "/c", "cls")
+		}
+		clear.Stdout = os.Stdout
+		clear.Run()
 	}
-	clear.Stdout = os.Stdout
-	clear.Run()
 
 	// transfer stdin, stdout, and stderr to the new process
 	// and also set target directory for the shell to start in.
@@ -282,7 +284,7 @@ func shell(args ...string) error {
 
 	// start up a new shell.
 	log.Logger.Info("Starting up the shell... ")
-	proc, err := os.StartProcess(shellProc, []string{}, &pa)
+	proc, err := os.StartProcess(shellProc, []string{}, &pa)	
 	if err != nil {
 		util.PrintError(err)
 		return nil

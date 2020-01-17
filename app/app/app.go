@@ -27,7 +27,8 @@ type ConfStruct struct {
 	ImmediateMode bool     `json:"immediateMode"`
 	Shell         string   `json:"shell"`
 	WorkPath      string   `json:"workPath"`
-	CustomPaths   []string `json:"customPaths"`
+	CustomPaths   []string `json:"customPaths"`	
+	ClearScreen   bool     `json:"clearScreen`  
 }
 
 func init() {

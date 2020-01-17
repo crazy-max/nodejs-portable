@@ -130,7 +130,8 @@ func appConf() error {
     "C:/Program Files (x86)/Git/cmd",
     "D:/another_path",
     "../a_relative_path"
-  ]
+  ],
+  "clearScreen": true
 }`))
 
 	f, err := os.Create("nodejs-portable.conf")
