@@ -42,7 +42,7 @@ func main() {
 	// pass args directly to node.exe and exit
 	if len(os.Args[1:]) > 0 {
 		node(os.Args[1:]...)
-		return		
+		return
 	}
 
 	color.New(color.FgHiWhite).Println("Node.js Portable " + version)
@@ -260,7 +260,7 @@ func shell(args ...string) error {
 	}
 
 	// clear screen
-	if app.Conf.ClearScreen == true {		
+	if app.Conf.ClearScreen == true {
 		util.Println("Clearing screen...")
 		var clear *exec.Cmd
 		if app.Conf.Shell == "powershell" {
@@ -284,7 +284,7 @@ func shell(args ...string) error {
 
 	// start up a new shell.
 	log.Logger.Info("Starting up the shell... ")
-	proc, err := os.StartProcess(shellProc, []string{}, &pa)	
+	proc, err := os.StartProcess(shellProc, []string{}, &pa)
 	if err != nil {
 		util.PrintError(err)
 		return nil
