@@ -260,7 +260,7 @@ func shell(args ...string) error {
 	}
 
 	// clear screen
-	if app.Conf.ClearScreen == true {
+	if app.Conf.ClearScreen {
 		util.Println("Clearing screen...")
 		var clear *exec.Cmd
 		if app.Conf.Shell == "powershell" {
