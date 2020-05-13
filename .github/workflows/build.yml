@@ -1,33 +1,21 @@
 name: build
 
 on:
-  pull_request:
-    branches: 'master'
-    paths:
-      - '.github/workflows/build.yml'
-      - 'app/**'
-      - 'go.mod'
-      - 'go.sum'
-      - '*.go'
   push:
-    branches: 'master'
-    tags: '*.*.*'
-    paths:
-      - '.github/workflows/build.yml'
-      - 'app/**'
-      - 'go.mod'
-      - 'go.sum'
-      - '*.go'
+    branches:
+      - 'master'
+    tags:
+      - '*.*.*'
+  pull_request:
+    branches:
+      - 'master'
 
 jobs:
   release:
     runs-on: windows-latest
     steps:
       -
-        # https://github.com/actions/checkout
-        name: Checkout
-        uses: actions/checkout@v1
-      - name: Prepare
+        name: Prepare
         id: prepare
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
@@ -37,28 +25,20 @@ jobs:
           fi
         shell: bash
       -
-        # https://github.com/actions/setup-go
+        name: Checkout
+        uses: actions/checkout@v2
+      -
         name: Set up Go
-        uses: actions/setup-go@master
+        uses: actions/setup-go@v2
         with:
-          go-version: 1.12.10
+          go-version: 1.12
       -
-        name: Set GOPATH
-        # temporary fix (see https://github.com/actions/setup-go/issues/14)
-        run: |
-          echo "##[set-env name=GOPATH;]$(dirname $GITHUB_WORKSPACE)"
-          echo "##[add-path]$(dirname $GITHUB_WORKSPACE)/bin"
-          echo "##[add-path]$(dirname $GITHUB_WORKSPACE)/bin/windows_386"
-        shell: bash
-      -
-        # https://github.com/crazy-max/ghaction-mage
         name: Mage build
-        uses: crazy-max/ghaction-mage@v1
+        uses: magefile/mage-action@v1
         with:
           version: latest
           args: build
       -
-        # https://github.com/crazy-max/ghaction-upx
         name: UPX compress
         uses: crazy-max/ghaction-upx@v1
         if: success()
@@ -67,7 +47,6 @@ jobs:
           file: bin/nodejs-portable.exe
           args: -fq
       -
-        # https://github.com/softprops/action-gh-release
         name: GitHub Release
         uses: softprops/action-gh-release@v1
         if: success() && startsWith(github.ref, 'refs/tags/')
@@ -78,3 +57,12 @@ jobs:
           name: ${{ steps.prepare.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: VirusTotal Scan
+        uses: crazy-max/ghaction-virustotal@v1
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./bin/nodejs-portable.exe
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
