@@ -31,7 +31,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.12
+          go-version: 1.13
       -
         name: Mage build
         uses: magefile/mage-action@v1
