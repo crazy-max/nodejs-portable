@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.10.0 (2020/05/14)
+
+* Go 1.13
+* Update deps
+
 ## 2.9.0 (2019/11/04)
 
 * Switch to [magefile](https://magefile.org) to build app
