@@ -9,7 +9,7 @@
 
 * Switch to [magefile](https://magefile.org) to build app
 * Go 1.12.10
-* Update libs
+* Update deps
 
 ## 2.8.0 (2019/09/02)
 
@@ -18,12 +18,12 @@
 ## 2.7.0 (2019/07/01)
 
 * Use HTTPS (Issue #47)
-* Update libs
+* Update deps
 * Go 1.12.4
 
 ## 2.6.0 (2019/01/31)
 
-* Update libs
+* Update deps
 * Go 1.11.5
 
 ## 2.5.0 (2018/11/18)
@@ -41,7 +41,7 @@
 
 * Pass custom arguments directly to node through nodejs-portable (Issue #34)
 * Fix logging output issue
-* Update libs
+* Update deps
 * Compress executable with UPX
 
 ## 2.3.0 (2017/12/27)
