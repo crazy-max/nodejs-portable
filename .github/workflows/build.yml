@@ -59,10 +59,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: VirusTotal Scan
-        uses: crazy-max/ghaction-virustotal@v1
+        uses: crazy-max/ghaction-virustotal@v2
         if: success() && startsWith(github.ref, 'refs/tags/')
         with:
+          vt_api_key: ${{ secrets.VT_API_KEY }}
           files: |
             ./bin/nodejs-portable.exe
-        env:
-          VT_API_KEY: ${{ secrets.VT_API_KEY }}
