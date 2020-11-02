@@ -7,7 +7,7 @@ require (
 	github.com/akyoto/color v1.8.11
 	github.com/cavaliercoder/grab v2.0.0+incompatible
 	github.com/josephspurrier/goversioninfo v0.0.0-20200309025242-14b0ab84c6ca
-	github.com/kevinburke/go-bindata v3.21.0+incompatible
+	github.com/kevinburke/go-bindata v3.22.0+incompatible
 	github.com/magefile/mage v1.10.0
 	github.com/mcuadros/go-version v0.0.0-20190830083331-035f6764e8d2
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
