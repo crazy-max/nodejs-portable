@@ -26,7 +26,7 @@ jobs:
         shell: bash
       -
         name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2
       -
         name: Set up Go
         uses: actions/setup-go@v2
@@ -59,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: VirusTotal Scan
-        uses: crazy-max/ghaction-virustotal@v2.2.1
+        uses: crazy-max/ghaction-virustotal@v2
         if: success() && startsWith(github.ref, 'refs/tags/')
         with:
           vt_api_key: ${{ secrets.VT_API_KEY }}
