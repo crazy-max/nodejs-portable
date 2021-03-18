@@ -23,7 +23,6 @@ var (
 	buildPath = path.Join(binPath, "nodejs-portable.exe")
 	buildEnv  = map[string]string{
 		"GO111MODULE": "on",
-		"GOPROXY":     "https://goproxy.io,direct",
 		"GOOS":        "windows",
 		"GOARCH":      "386",
 		"CGO_ENABLED": "0",
