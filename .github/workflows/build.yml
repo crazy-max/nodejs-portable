@@ -40,7 +40,7 @@ jobs:
           args: build
       -
         name: UPX compress
-        uses: crazy-max/ghaction-upx@v1
+        uses: crazy-max/ghaction-upx@v1.4.0
         if: success()
         with:
           version: latest
