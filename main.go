@@ -246,7 +246,10 @@ func shell(args ...string) error {
 	var shellCmdLine string
 	if app.Conf.Shell == "powershell" {
 		shellProc, _ = exec.LookPath("powershell.exe")
-		shellCmdLine = fmt.Sprintf("-? -NoExit -Command %s", fs.RemoveUnc(launchScript))
+		shellCmdLine = fmt.Sprintf(" -NoExit -ExecutionPolicy Unrestricted -Command %s", fs.RemoveUnc(launchScript))
+	} else if app.Conf.Shell == "pwsh" {
+		shellProc, _ = exec.LookPath("pwsh.exe")
+		shellCmdLine = fmt.Sprintf(" -NoExit -ExecutionPolicy Unrestricted -Command %s", fs.RemoveUnc(launchScript))
 	} else {
 		shellProc = os.Getenv("COMSPEC")
 		shellCmdLine = fmt.Sprintf(` /k "%s"`, fs.RemoveUnc(launchScript))
